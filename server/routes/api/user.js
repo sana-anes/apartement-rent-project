@@ -14,6 +14,15 @@ const {
   fileUploadPaths,
 } = require("../../middleware/uploadHandler");
 
+
+// @route   GET api/v1/user/users
+// @desc    all user info
+// @access  public
+router.get("/users", async (req, res) => {
+  const user = await User.find();
+  res.json(user);
+});
+
 // @route   GET api/v1/user/me
 // @desc    user info
 // @access  private
@@ -23,8 +32,8 @@ router.get("/me", auth, async (req, res) => {
   res.json(
     _.pick(user, [
       "_id",
-      "first_name",
-      "last_name",
+      "firstname",
+      "lastname",
       "phone",
       "email",
       "address",
@@ -33,49 +42,7 @@ router.get("/me", auth, async (req, res) => {
   );
 });
 
-// @route   POST api/v1/user
-// @desc    register user
-// @access  Public
-router.post("/", async (req, res) => {
-  debug(req.body);
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
 
-  const { email, password } = req.body;
-
-  // Check if email is used
-  let user = await User.findOne({ email });
-  if (user) return res.status(400).json({ message: "User already exist" });
-
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-  debug({
-    ...req.body,
-    password: hash,
-  });
-
-  user = new User({
-    ...req.body,
-    password: hash,
-  });
-
-  user = await user.save();
-
-  const token = user.generateAuthToken();
-  // .header("x-auth-token", token)
-  res.status(200).json({
-    token,
-    user: _.pick(user, [
-      "_id",
-      "first_name",
-      "last_name",
-      "phone",
-      "email",
-      "address",
-      "picture",
-    ]),
-  });
-});
 
 // @route   GET api/v1/user/update
 // @desc    update profile
@@ -155,7 +122,7 @@ router.patch(
     );
     const updated_user = await User.findByIdAndUpdate(
       req.user._id,
-      {picture:"/static/user_profile/picture/default.jpg"}
+      {picture:"/static/user_profile/default.jpg"}
     );
     debug(updated_user);
     res.json({

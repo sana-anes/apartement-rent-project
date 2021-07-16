@@ -1,0 +1,99 @@
+
+  <h1 >Create an account</h1>
+    <div class="alert alert-danger" 
+    *ngIf="errorMessage">{{errorMessage}}
+    </div>
+
+    <form 
+      class="register-register-form"
+      novalidate=""
+      [formGroup]="registerForm"
+      >
+        <div class="form-row">
+          <div class="col">
+             <div class="form-group">
+                <label>Firstname</label>
+                <input class="form-control"  
+                      formControlName="firstname"
+                      [class.is-invalid]="firstname.invalid && firstname.touched" 
+                      name="firstname" 
+                      required minlength="3">
+                <small class="text-danger" *ngIf="firstname.errors?.required  && firstname.touched">Firstname is required</small>
+                <small class="text-danger" *ngIf="firstname.errors?.minlength ">Firstname must be at least 3 characters long</small>
+
+            </div>
+          </div>
+           <div class="col">
+            <div class="form-group">
+              <label>Lastname</label>
+              <input  class="form-control"  
+                      formControlName="lastname" 
+                      [class.is-invalid]="lastname.invalid && lastname.touched" 
+                      name="lastname" 
+                      required minlength="3">
+              <small class="text-danger" *ngIf="lastname.errors?.required  && lastname.touched">Lastname is required</small>
+              <small class="text-danger" *ngIf="lastname.errors?.minlength  ">Lastname must be at least 3 characters long</small>
+            </div>
+          </div>
+        </div>
+          
+        <div class="form-group">
+              <label>Email address</label>
+              <input class="form-control" 
+                    formControlName="email" 
+                    [class.is-invalid]="email.invalid && email.touched" 
+                    name="email" required>
+              <small class="text-danger" *ngIf="email.errors?.required && email.touched">Email address is required</small>
+              <small class="text-danger" *ngIf="email.errors?.email">Invalid email address</small>
+
+        </div>
+          
+
+        <div class="form-group">
+              <label>Password</label>
+              <input  class="form-control"  
+                      formControlName="password"
+                    [class.is-invalid]="password.invalid && password.touched " 
+                      type="password" 
+                      name="password" 
+                      required minlength="6">
+              <small class="text-danger" *ngIf="password.errors?.required && password.touched">Password is required</small>
+              <small class="text-danger" *ngIf="password.errors?.minlength">Password must be at least 6 characters long</small>
+
+       
+        </div>
+
+        <div class="form-group">
+              <label>Confirm password</label>
+              <input  class="form-control"  
+                      formControlName="repeatPassword"
+                      [class.is-invalid]="repeatPassword.invalid && repeatPassword.touched" 
+                      type="password" 
+                      name="repeatPassword" 
+                      required>
+              <small class="text-danger" *ngIf="repeatPassword.errors?.required && repeatPassword.touched">Confirm password is required</small>
+              <small class="text-danger" *ngIf="repeatPassword.invalid && ! repeatPassword.errors?.required ">Password mismatch</small>
+        </div>
+
+    </form>
+    <button class="btn btn-primary" (click)="register()" [disabled]="registerForm.invalid" color="primary">Register</button>
+    <span> Already have an account ? <a [routerLink]="['/auth/login']">login</a> here</span>
+ 
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  

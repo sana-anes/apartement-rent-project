@@ -24,6 +24,11 @@ const routes: Routes = [
         path: 'contact',
         component: ContactUsComponent,
       },
+      {
+        path: 'auth',
+        loadChildren: () => import('../auth/auth.module').then(m => m.AuthModule),
+      },
+
     ],
   },
 ];

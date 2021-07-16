@@ -18,9 +18,9 @@ module.exports = (app) => {
   app.use(express.json());
   app.use(helmet());
   app.use(morgan("tiny"));
-  app.use("/api/v1/user", user);
-  app.use("/api/v1/property", property);
-  app.use("/api/v1/auth", auth);
+  app.use("/api/user", user);
+  app.use("/api/property", property);
+  app.use("/api/auth", auth);
 
 
 

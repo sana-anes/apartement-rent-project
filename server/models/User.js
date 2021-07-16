@@ -3,17 +3,17 @@ const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 
 const userSchema = new mongoose.Schema({
-  first_name: {
+  firstname: {
     type: String,
     required: true,
-    minlength: 5,
-    maxlength: 50,
+    minlength: 3,
+    maxlength: 20,
   },
-  last_name: {
+  lastname: {
     type: String,
     required: true,
-    minlength: 5,
-    maxlength: 50,
+    minlength: 3,
+    maxlength: 20,
   },
   address: {
     type: String,
@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 6,
     maxlength: 1024,
   },
   picture: {
