@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         ;
         this.isAdmin = this.tokenStorage.getUser().isAdmin;
         this.isAdmin?(this.role ='admin'):(this.role ='user');
-        if(!this.isAdmin) this.router.navigateByUrl('/member');
+        if(!this.isAdmin) this.router.navigateByUrl('/user');
       },
       err => {
         this.errorMessage = err.error.message;
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
    }
    ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
-      this.router.navigateByUrl('/member');
+      this.router.navigateByUrl('/user');
     }
   }
 

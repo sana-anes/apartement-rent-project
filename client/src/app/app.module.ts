@@ -10,23 +10,36 @@ import { AuthModule } from './auth/auth.module';
 
 import { AppComponent } from './app.component';
 import { ClientModule } from './client/client.module';
+import { UserModule } from './user/user.module';
 
 import { authInterceptorProviders } from './shared/interceptors/auth.interceptor';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
   declarations: [
-    AppComponent, 
-    
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     ClientModule,
+    UserModule,
     HttpClientModule, 
     SharedModule,
-    AuthModule
+    AuthModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [
     authInterceptorProviders 

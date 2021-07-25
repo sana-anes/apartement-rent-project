@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ message: "Invalid password" });
 
   const token = user.generateAuthToken();
-  res.json({ 
+  res.status(202).json({ 
     accessToken:token ,
     user:
     _.pick(user, [
@@ -151,7 +151,7 @@ async (req, res) =>{
     }
     console.log('Message sent: %s', info.messageId);
   });
-  return  res.status(200).json({ message: 'Reset Password successfully.' , token:resettoken.resettoken});
+  return  res.status(204).json({ message: 'Reset Password successfully.' , token:resettoken.resettoken});
 
   })
 
@@ -177,7 +177,7 @@ async (req, res) =>{
   .json({ message: 'Invalid URL' });
   }
   User.findById(user._userId).then(() => {
-  res.status(200).json({ message: 'Token verified successfully.' });
+  res.status(204).json({ message: 'Token verified successfully.' });
   }).catch((err) => {
   return res.status(500).send({ message:"something went wrong." });
   });
@@ -201,7 +201,7 @@ router.post("/new-password",
         }, function (err, userEmail, next) {
           if (!userEmail) {
             return res
-              .status(409)
+              .status(404)
               .json({ message: 'User does not exist' });
           }
           return bcrypt.hash(req.body.newPassword, 10, (err, hash) => {

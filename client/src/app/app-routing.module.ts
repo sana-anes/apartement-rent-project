@@ -8,8 +8,8 @@ const routes: Routes = [
     loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
   },
   {
-    path: 'member',
-    loadChildren: () => import('./member/member.module').then(m => m.MemberModule),
+    path: 'user',
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule),
     canActivate: [AuthGuard]
   },
 

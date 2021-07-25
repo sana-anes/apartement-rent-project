@@ -9,6 +9,7 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { DetailsComponent } from './details/details.component';
 import { SearchComponent } from './search/search.component';
 import { RoutingModule } from './routing.module';
+import { SharedModule } from './../shared/shared.module';
 
 
 
@@ -26,7 +27,8 @@ import { RoutingModule } from './routing.module';
 
   imports: [
     CommonModule,
-    RoutingModule
+    RoutingModule,
+    SharedModule
   ]
 })
 export class ClientModule {  }
