@@ -5,3 +5,7 @@ h1 {
 .align-left{
   text-align: left;
 }
+.btn-submit{
+	background: rgb(28, 164, 182);
+    color:white;
+}

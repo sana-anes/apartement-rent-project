@@ -1,1 +1,36 @@
-<p>contact-us works!</p>
+<div class="background" >
+
+<div class="container pop-up-box">
+
+<form  [formGroup]="feedbackForm">
+    <div class="form-group">
+      <label class="label">Name</label>
+      <input type="text" name="name" class="form-control" formControlName="name"
+      [class.is-invalid]="name.invalid && name.touched" 
+
+      >
+      <small class="text-danger" *ngIf="name.errors?.required  && name.touched">Name is required</small>
+    </div>
+    <div class="form-group">
+      <label class="label">Email</label>
+      <input type="email" name="email" class="form-control"
+       formControlName="email"
+       [class.is-invalid]="email.invalid && email.touched" 
+
+       >
+      <small class="text-danger" *ngIf="email.errors?.required && email.touched">Email address is required</small>
+      <small class="text-danger" *ngIf="email.errors?.email">Invalid email address</small>    </div>
+    <div class="form-group">
+      <label class="label">Your Feedback</label>
+      <textarea  name="message" class=" form-control" formControlName="message"
+      [class.is-invalid]="message.invalid && message.touched" 
+
+      ></textarea>
+      <small class="text-danger" *ngIf="message.errors?.required  && message.touched">Feedback is required</small>
+
+    </div>
+    <button type="submit" class="btn btn-send" (click)="send()" [disabled]="feedbackForm.invalid" >Send!</button>
+  </form>
+</div>
+</div>
+

@@ -2,7 +2,7 @@ import { BreakpointObserver,  BreakpointState } from '@angular/cdk/layout';
 import { BASE_URL } from './../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { AuthService, TokenStorageService } from 'src/app/auth/services';
-import { UserService } from 'src/app/shared/user.service';
+import { UserService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-navbar',

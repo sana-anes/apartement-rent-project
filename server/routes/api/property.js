@@ -27,33 +27,40 @@ router.get("/", auth, async (req, res) => {
 // @route   POST api/v1/property
 // @desc    Add property
 // @access  private
-router.post("/", auth, uploadImage.single("picture"), async (req, res) => {
-  console.log(req.file);
+router.post("/add", 
+            auth, 
+            //uploadImage.single("picture"),
+            async (req, res) => {
   console.log(req.body);
+  console.log(req.file);
+  console.log(req.files);
 
-  if (!req.file) {
-    return res.status(400).json({ message: "No images uploaded" });
-  } else {
-    const { error } = validateProperty({ ...req.body, user: req.user._id });
-    if (error) {
-      deleteFile(join(fileUploadPaths.FILE_UPLOAD_PATH,req.file.filename));
-      return res.status(400).json(error.details[0].message);
-    }
 
-    const imageName = req.file.filename;
-    const newProperty = new Property({
-      ...req.body,
-      picture: `${fileUploadPaths. PROPERTY_IMAGE_URL}/${imageName}`,
-      user: req.user._id,
-    });
-    moveFile(
-      join(fileUploadPaths.FILE_UPLOAD_PATH, imageName),
-      join(fileUploadPaths. PROPERTY_IMAGE_UPLOAD_PATH, imageName)
-    );
-    const savedProperty = await newProperty.save();
+  return res.json({ message: "savedProperty "});
 
-    return res.json({ Property: savedProperty });
-  }
+  // if (!req.file) {
+  //   return res.status(400).json({ message: "No images uploaded" });
+  // } else {
+  //   const { error } = validateProperty({ ...req.body, user: req.user._id });
+  //   if (error) {
+  //     deleteFile(join(fileUploadPaths.FILE_UPLOAD_PATH,req.file.filename));
+  //     return res.status(400).json(error.details[0].message);
+  //   }
+
+  //   const imageName = req.file.filename;
+  //   const newProperty = new Property({
+  //     ...req.body,
+  //     picture: `${fileUploadPaths. PROPERTY_IMAGE_URL}/${imageName}`,
+  //     user: req.user._id,
+  //   });
+  //   moveFile(
+  //     join(fileUploadPaths.FILE_UPLOAD_PATH, imageName),
+  //     join(fileUploadPaths. PROPERTY_IMAGE_UPLOAD_PATH, imageName)
+  //   );
+  //   const savedProperty = await newProperty.save();
+
+  //   return res.json({ Property: savedProperty });
+  // }
 });
 
 // @route   PATCH api/v1/property
@@ -65,11 +72,11 @@ router.patch(
   uploadImage.single("picture"),
   async (req, res) => {
     const { id } = req.params;
-    const { error } = validate_update(req.body);
-    if (error) {
-      if(req.file) deleteFile(join(fileUploadPaths.FILE_UPLOAD_PATH,req.file.filename));
-      return res.status(400).json(error.details[0].message);
-    }
+    // const { error } = validate_update(req.body);
+    // if (error) {
+    //   if(req.file) deleteFile(join(fileUploadPaths.FILE_UPLOAD_PATH,req.file.filename));
+    //   return res.status(400).json(error.details[0].message);
+    // }
     let update_values = req.body;
     const property = await Property.findById(id);
     if (!property) return res.json({ message: "Property not found" });

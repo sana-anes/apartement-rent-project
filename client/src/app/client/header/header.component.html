@@ -19,6 +19,9 @@
                 <a mat-button routerLink="/contact">       
                     <span>Contact</span>
                 </a>
+                <a mat-button routerLink="/help">       
+                    <span>Help</span>
+                </a>                
                 <button mat-button class="property-button" [routerLink]="['/auth/login']">        
                     <span> Add a property</span>
                 </button>
@@ -49,9 +52,10 @@
             <span> Menu</span>
         </mat-toolbar>
         <mat-nav-list>
+            <a mat-list-item href="/home" >Home</a>
             <a mat-list-item href="/about" >About</a>
-            <a mat-list-item href="/about" >About</a>
-            <a mat-list-item href="/contact">Contact Us</a>
+            <a mat-list-item href="/contact">Contact</a>
+            <a mat-list-item href="/help">Help</a>
             <a mat-list-item href="/auth/login">Add a property</a>
             <a mat-list-item href="/auth/login">Login</a>
             <a mat-list-item href="/auth/register">Register</a>

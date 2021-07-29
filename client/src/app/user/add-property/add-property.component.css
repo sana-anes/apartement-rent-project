@@ -1,0 +1,50 @@
+.property-box{
+    background: white;
+    border: 0 none;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 30px 30px;
+    box-sizing: border-box;
+    width: 500px;
+    height: 70%;
+    position: relative;
+    margin:0 auto; 
+ 
+}
+
+h1 {
+    text-align: center;
+    padding-bottom:10px ;
+  }
+
+  .custom-file-label::after {
+    left: 0;
+    right: auto;
+    border-left-width: 0;
+    border-right: inherit;
+   
+}
+.custom-file-label {
+    width:20em;
+   
+}
+.btn-pre{
+    margin-right: 0.5em;
+    background: rgb(135, 137, 138);
+    color:white;
+}
+.btn-next{
+    margin-right: 0.5em;
+    background: rgb(28, 164, 182);
+    color:white;
+
+
+}
+.btn-add{
+    border: 1px solid rgb(160, 158, 158);
+    margin-right: 0.5em;
+
+}
+.btn-submit{
+    background: rgb(28, 164, 182);
+    color:white;
+}

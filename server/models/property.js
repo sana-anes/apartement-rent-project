@@ -5,33 +5,40 @@ const propertySchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    minlength: 5,
-    maxlength: 50,
+    minlength: 3,
   },
-  location: {
+  address: {
     type: String,
     required: true,
     minlength: 3,
-    maxlength: 50,
+
+  },
+  country:{
+    type: String,
+    required: true,
+  },
+  state:{
+    type: String,
+    required: true,
+  },
+  city:{
+    type: String,
+    required: true,
   },
   type: {
     type: String,
     required: true,
   },
   rooms: {
-    type: String,
+    type: Number,
     required: true,
   },
   beds: {
-    type: String,
-    required: true,
-  },
-  beds: {
-    type: String,
+    type: Number,
     required: true,
   },
   baths: {
-    type: String,
+    type: Number,
     required: true,
   },
   rentFrom: {
@@ -46,6 +53,10 @@ const propertySchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 1024,
   },
+  activities: [{
+    name:{type: String},
+    distance:{type: String},
+  }],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -54,9 +65,17 @@ const propertySchema = new mongoose.Schema({
 
 const validateProperty= (card) => {
   const schema = {
-    title: Joi.string().min(5).required(),
-    location: Joi.string().min(3).max(50).required(),
-    type: Joi.array().items(Joi.string().required()),
+    title: Joi.string().min(3).required(),
+    type: Joi.string().required(),
+    address: Joi.string().required(),
+    country: Joi.string().required(),
+    state: Joi.string().required(),
+    city: Joi.string().required(),
+    rooms: Joi.number().required(),
+    beds: Joi.number().required(),
+    baths: Joi.number().required(),
+    rentFrom:Joi.date().required(),
+    rentTo:Joi.date().required(),
     user: Joi.string().min(5).max(255).required(),
   };
   return Joi.validate(card, schema);

@@ -59,7 +59,7 @@
           </mat-menu>
 
 
-          <button mat-button class="property-button" *ngIf="!isMobile">        
+          <button mat-button class="property-button" *ngIf="!isMobile" [routerLink]="['/user/add-property']">        
             <mat-icon >home_work</mat-icon>
             <span> Add a property</span>
           </button>

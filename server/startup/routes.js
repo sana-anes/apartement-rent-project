@@ -9,6 +9,7 @@ const path = require("path");
 const auth = require("../routes/api/auth");
 const property = require("../routes/api/property");
 const user = require("../routes/api/user");
+const client = require("../routes/api/client");
 
 
 module.exports = (app) => {
@@ -21,6 +22,7 @@ module.exports = (app) => {
   app.use("/api/user", user);
   app.use("/api/property", property);
   app.use("/api/auth", auth);
+  app.use("/api/client", client);
 
 
 
