@@ -2,7 +2,8 @@ const express = require("express");
 const Joi = require("joi");
 const router = express.Router();
 const { join, basename } = require("path");
-const { Property, validateProperty } = require("../../models/property");
+const { Property } = require("../../models/property");
+const { User } = require("../../models/User");
 
 const { moveFile, deleteFile} = require("../../utilities/fileManager");
 const _ = require("lodash");
@@ -14,14 +15,53 @@ const {
   fileUploadPaths,
 } = require("../../middleware/uploadHandler");
 
+// @route   GET api/v1/property/all
+// @desc    Get all property
+// @access  private
+router.get("/all", async (req, res) => {
+  const all_property = await Property.find();
+  res.json(all_property);
+});
+// @route   GET api/v1/property/others
+// @desc    Get other property
+// @access  private
+router.get("/others", auth, async (req, res) => {
+  const { _id } = req.user;
+  const other_properties = await Property.find({user: { $ne: _id }});
+  res.json(other_properties);
+});
 
 // @route   GET api/v1/property
 // @desc    Get user property
 // @access  private
 router.get("/", auth, async (req, res) => {
   const { _id } = req.user;
-  const all_property = await Property.find({ user: _id }).populate("User");
+  const all_property = await Property.find({ user: _id });
   res.json(all_property);
+});
+
+
+// @route   POST api/v1/property/save
+// @desc    POST save property
+// @access  private
+router.post("/save", auth, async (req, res) => {
+  const { _id } = req.user;
+  const updated_user = await User.findByIdAndUpdate(
+    _id,
+    { $addToSet: { savedProperties: req.body.id }},  
+    )
+  res.json({message:"property saved"});
+});
+// @route   POST api/v1/property/unsave
+// @desc    POST unsave property
+// @access  private
+router.post("/unsave", auth, async (req, res) => {
+  const { _id } = req.user;
+  const updated_user = await User.findByIdAndUpdate(
+    _id,
+    { $pull: { savedProperties: req.body.id }},  
+    )
+  res.json({message:"property unsaved"});
 });
 
 // @route   POST api/v1/property
@@ -29,38 +69,54 @@ router.get("/", auth, async (req, res) => {
 // @access  private
 router.post("/add", 
             auth, 
-            //uploadImage.single("picture"),
+            uploadImage.array("file"),
             async (req, res) => {
   console.log(req.body);
   console.log(req.file);
   console.log(req.files);
 
+const pictures=[];
+for(let i =0; i<req.files.length; i++){
+    const imageName = req.files[i].filename;
+    moveFile(
+      join(fileUploadPaths.FILE_UPLOAD_PATH, imageName),
+      join(fileUploadPaths.PROPERTY_IMAGE_UPLOAD_PATH, imageName)
+    );
+    pictures.push(`${fileUploadPaths. PROPERTY_IMAGE_URL}/${imageName}`);
+}
+  var property=req.body;
+  if(!req.body.activities)
+  property={...property,activities:null}
+  else
+  property={...property,activities:JSON.parse(req.body.activities)}
 
-  return res.json({ message: "savedProperty "});
+    const newProperty = {
+      ...property,
+      picture: pictures,
+      user: req.user._id,
+    };
 
-  // if (!req.file) {
-  //   return res.status(400).json({ message: "No images uploaded" });
-  // } else {
-  //   const { error } = validateProperty({ ...req.body, user: req.user._id });
-  //   if (error) {
-  //     deleteFile(join(fileUploadPaths.FILE_UPLOAD_PATH,req.file.filename));
-  //     return res.status(400).json(error.details[0].message);
-  //   }
-
-  //   const imageName = req.file.filename;
-  //   const newProperty = new Property({
-  //     ...req.body,
-  //     picture: `${fileUploadPaths. PROPERTY_IMAGE_URL}/${imageName}`,
-  //     user: req.user._id,
-  //   });
-  //   moveFile(
-  //     join(fileUploadPaths.FILE_UPLOAD_PATH, imageName),
-  //     join(fileUploadPaths. PROPERTY_IMAGE_UPLOAD_PATH, imageName)
-  //   );
-  //   const savedProperty = await newProperty.save();
-
-  //   return res.json({ Property: savedProperty });
-  // }
+    const savedProperty = await new Property(newProperty).save()
+    .then(data => {
+      res.status(201).json({
+         message: 'Property created successfully', 
+         data 
+        });
+    })
+    .catch((error) => {
+      for(let i =0; i<req.files.length; i++){
+        const imageName = req.files[i].filename;
+        deleteFile(
+          join(fileUploadPaths.PROPERTY_IMAGE_UPLOAD_PATH, imageName)
+        );
+      }
+      res
+      .status(500)
+      .json({ message: 'Error occured' ,
+      error
+    });
+  });
+  
 });
 
 // @route   PATCH api/v1/property
@@ -113,9 +169,9 @@ router.delete("/delete", auth, async (req, res) => {
   if (property === null)
     return res.status(400).json({ message: "Property not exists" });
   else {
-    deleteFile(
-      join(fileUploadPaths.PROPERTY_IMAGE_UPLOAD_PATH, basename(property.picture))
-    );
+    // deleteFile(
+    //   join(fileUploadPaths.PROPERTY_IMAGE_UPLOAD_PATH, basename(property.picture))
+    // );
     res.json({
       message: "Property deleted",
     });

@@ -10,7 +10,7 @@
   background: inherit;
 }
 
-.mat-toolbar .mat-primary {
+.mat-toolbar.mat-primary {
   position:fixed;
   top: 0;
   z-index: 1;
@@ -18,7 +18,7 @@
 }
 .toolbar{
   background: rgb(242, 245, 248); 
-  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4); 
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
   position:fixed;
 
 }
@@ -43,13 +43,13 @@
 .spacer{
   flex: 1 1 auto;
 }
+.mat-toolbar .mat-icon{
+  color:rgb(50, 52, 65);
 
+}
 .property-button{
   background:rgb(58, 166, 170);
-  margin-right: 0.5em;
-}
-.login-button{
-  background:rgb(216, 122, 68);
+
 }
 
 

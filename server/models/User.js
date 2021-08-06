@@ -44,6 +44,12 @@ const userSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 1024,
   },
+  savedProperties:{
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Property",
+    }],
+  },
   isAdmin: {
     type: Boolean,
     default: false,

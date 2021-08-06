@@ -5,12 +5,10 @@ const propertySchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    minlength: 3,
   },
   address: {
     type: String,
     required: true,
-    minlength: 3,
 
   },
   country:{
@@ -18,10 +16,6 @@ const propertySchema = new mongoose.Schema({
     required: true,
   },
   state:{
-    type: String,
-    required: true,
-  },
-  city:{
     type: String,
     required: true,
   },
@@ -33,52 +27,51 @@ const propertySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  beds: {
-    type: Number,
-    required: true,
-  },
   baths: {
     type: Number,
     required: true,
   },
-  rentFrom: {
-    type: Date,
+  price:{
+    type: Number,
+    required: true,
   },
-  rentTo: {
-    type: Date,
-  },
-  picture: {
+  rentPer:{
     type: String,
     required: true,
-    minlength: 5,
-    maxlength: 1024,
   },
+  picture: [{
+    type: String
+  }],
   activities: [{
     name:{type: String},
-    distance:{type: String},
+    distance:{type: Number},
   }],
+  status: {
+    type: String,
+    default:"pending"
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-});
+},
+{timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+);
 
-const validateProperty= (card) => {
+const validateProperty= (prop) => {
   const schema = {
-    title: Joi.string().min(3).required(),
+    title: Joi.string().required(),
     type: Joi.string().required(),
     address: Joi.string().required(),
     country: Joi.string().required(),
     state: Joi.string().required(),
-    city: Joi.string().required(),
     rooms: Joi.number().required(),
-    beds: Joi.number().required(),
     baths: Joi.number().required(),
-    rentFrom:Joi.date().required(),
-    rentTo:Joi.date().required(),
-    user: Joi.string().min(5).max(255).required(),
+    rentPer:Joi.string().required(),
+    status:Joi.string(),
+    user:Joi.string().min(5).max(255).required(),
   };
-  return Joi.validate(card, schema);
+  return Joi.validate(prop, schema);
 };
 
 const Property = mongoose.model("Property", propertySchema);

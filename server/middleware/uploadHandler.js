@@ -26,7 +26,7 @@ let storage = multer.diskStorage({
     cb(null, fileUploadPaths.FILE_UPLOAD_PATH);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname.toLowerCase().replace(/ /g, "_"));
+    cb(null, Date.now()+'-'+file.originalname.toLowerCase().replace(/ /g, "_"));
   },
 });
 

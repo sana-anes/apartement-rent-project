@@ -38,11 +38,23 @@ router.get("/me", auth, async (req, res) => {
       "email",
       "address",
       "picture",
+      "savedProperties"
     ])
   );
 });
 
-
+// @route   GET api/v1/user/savedPropreties
+// @desc    user saved Propreties
+// @access  private
+router.get("/savedProperties", auth, async (req, res) => {
+  const user = await User.findById(req.user._id).select("-password");
+  debug(req.user);
+  res.json(
+    _.pick(user, [
+      "savedProperties"
+    ])
+  );
+});
 
 // @route   GET api/v1/user/update
 // @desc    update profile

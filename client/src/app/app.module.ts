@@ -10,7 +10,7 @@ import { AuthModule } from './auth/auth.module';
 
 import { AppComponent } from './app.component';
 import { ClientModule } from './client/client.module';
-import { UserModule } from './user/user.module';
+import { MemberModule } from './member/member.module';
 
 import { authInterceptorProviders } from './shared/interceptors/auth.interceptor';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -30,7 +30,7 @@ import { MatListModule } from '@angular/material/list';
     BrowserAnimationsModule,
     AppRoutingModule,
     ClientModule,
-    UserModule,
+    MemberModule,
     HttpClientModule, 
     SharedModule,
     AuthModule,

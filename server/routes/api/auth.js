@@ -36,10 +36,8 @@ router.post("/login", async (req, res) => {
       "_id",
       "firstname",
       "lastname",
-      "phone",
-      "email",
-      "address",
       "picture",
+      "isAdmin"
     ])
   
   });
@@ -50,9 +48,6 @@ router.post("/login", async (req, res) => {
 // @desc    register user
 // @access  Public
 router.post("/register", async (req, res) => {
-  debug(req.body);
-  // const { error } = validateUser(req.body);
-  // if (error) return res.status(400).send(error.details[0].message);
 
   const { email, password } = req.body;
 
