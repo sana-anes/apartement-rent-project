@@ -35,12 +35,17 @@ export class PropertyService {
 
   }
 
-  getProperties(): Observable<Property[]> {
+  getProperties(): Observable<Property[]> {  
     return this.http.get<Property[]>(`${API_URL}`)
   }
+  getPropertiesByStatus(status:string): Observable<Property[]> {
+    return this.http.get<Property[]>(`${API_URL}status/${status}`)
+  }
+
   getAllProperties(): Observable<Property[]> {
     return this.http.get<Property[]>(`${API_URL}all`)
   }
+
   getOtherProperties(): Observable<Property[]> {
     return this.http.get<Property[]>(`${API_URL}others`)
   }

@@ -1,4 +1,6 @@
-
+.footer{
+	background-color:#575454 ;/*#24262b*/
+}
 .container{
 	max-width: 1170px;
 	margin:auto;
@@ -10,10 +12,7 @@
 ul{
 	list-style: none;
 }
-.footer{
-	background-color:#575454 ;/*#24262b*/
-    padding: 70px 0;
-}
+
 .footer-col{
    width: 25%;
    padding: 0 15px;

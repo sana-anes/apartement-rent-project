@@ -1,10 +1,9 @@
         <div class="container home">
           <div class="row">
-        <div class="card-deck">
 
-          <div class="col-lg-4 mb-4" *ngFor="let row of data">
+          <div class="col-lg-4 col-md-6 mb-4" *ngFor="let row of data">
           <div class="card">
-            <img src="{{base_url+row.picture[0]}}" alt="" class="card-img-top" width="100%" height="100%">
+            <img src="{{base_url+row.picture[0]}}" alt="" class="card-img-top" width="288" height="180">
 
             <div class="card-body">
               <h2 class="card-title" >{{row.title}}</h2>
@@ -20,16 +19,12 @@
                     <i class="fas fa-money-bill-wave"></i>{{row.price}} DT/ {{row.rentPer}}
                     <i class="fas fa-calendar-alt"></i>{{row.created_at | date:'MMM d, y' }}
                 </small></p>
+                <button  class="btn btn-more btn-sm">More Details</button>
+                <a  class="btn  btn-save btn-sm" ><i class="fas fa-bookmark"  [ngStyle]="{'color': savedProperties.includes(row._id) ? 'rgb(139, 41, 41)' : 'gray' }" (click)="save(row._id)"></i></a>
 
+  
             </div>
-            <div class="card-footer">
-                <button  class="btn btn-more btn-sm">Details</button>
-                <a  class="btn  btn-save btn-sm"><i class="fas fa-bookmark" [ngStyle]="{'color': savedProperties.includes(row._id) ? 'rgb(139, 41, 41)' : 'gray' }" (click)="save(row._id)"></i></a>
 
-                <!-- <a  class="btn  btn-save btn-sm"><i class="fas fa-bookmark" (click)="save(row._id)"></i></a> -->
-
-
-            </div>
 
            </div>
           </div>
@@ -37,7 +32,6 @@
 
 
      
-        </div>
         </div>
       </div>
       

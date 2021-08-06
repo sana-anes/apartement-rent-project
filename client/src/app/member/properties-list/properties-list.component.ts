@@ -13,22 +13,34 @@ export class PropertiesListComponent implements OnInit {
   data: Property[] = [];
   isLoadingResults = true;
   base_url:string=BASE_URL;
-
+  optionFilter:string="all";
   constructor(private propertyService: PropertyService,
     private router: Router,
 
     ) { }
 
-  ngOnInit(): void {
 
-    this.propertyService.getProperties()
+  option(e:string){
+    this.optionFilter=e;
+    this.propertyService.getPropertiesByStatus(e)
     .subscribe((res: any) => {
       this.data = res;
-      console.log(this.data);
-      this.isLoadingResults = false;
+      console.log(res);
+
     }, err => {
       console.log(err);
-      this.isLoadingResults = false;
+    });
+  }
+
+  ngOnInit(): void {
+
+    this.propertyService.getPropertiesByStatus(this.optionFilter)
+    .subscribe((res: any) => {
+      this.data = res;
+      console.log(res);
+
+    }, err => {
+      console.log(err);
     });
   }
 

@@ -1,7 +1,4 @@
 
-
-
-
 .container{
 	max-width: 1170px;
 	margin:auto;
@@ -13,7 +10,7 @@
 .background{
 	width:100%;
 	height: 100%;
-	background-image: url('~src/assets/images/back3.jpg');
+	/* background-image: url('~src/assets/images/back3.jpg'); */
 	background-repeat: no-repeat;
 	background-size:cover;
 	background-attachment: fixed;
@@ -21,7 +18,7 @@
 	padding-bottom: 7em;
 }
 .pop-up-box{
-	background: rgb(247, 249, 252);
+	/* background: rgb(247, 249, 252); */
 	border: 0 none;
 	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
 	padding: 30px 30px;

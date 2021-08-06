@@ -40,6 +40,18 @@ router.get("/", auth, async (req, res) => {
   res.json(all_property);
 });
 
+// @route   GET api/v1/property
+// @desc    Get user property by status
+// @access  private
+router.get("/status/:status", auth, async (req, res) => {
+  const { status} = req.params;
+  const { _id } = req.user;
+  console.log(status);
+  var propreties;
+  if(status=="all") propreties = await Property.find({ user: _id});
+  else propreties = await Property.find({ user: _id , status:status});
+  res.json(propreties);
+});
 
 // @route   POST api/v1/property/save
 // @desc    POST save property

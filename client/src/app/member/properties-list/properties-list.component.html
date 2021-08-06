@@ -1,9 +1,18 @@
-        <div class="container ">
-          <div class="row property-list">
-
-          <div class="col-lg-4 col-md-6" *ngFor="let row of data">
+        <div class="container">
+        
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul class="options-flters">
+              <li [ngClass]="{active:optionFilter=='all'}" (click)="option('all')">All</li>
+              <li [ngClass]="{active:optionFilter=='pending'}" (click)="option('pending')">Pending</li>
+              <li [ngClass]="{active:optionFilter=='accepted'}" (click)="option('accepted')">Accepted</li>
+            </ul>
+          </div>
+        </div>
+          <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4" *ngFor="let row of data">
           <div class="card">
-            <img src="{{base_url+row.picture[0]}}" alt="" class="card-img-top">
+            <img src="{{base_url+row.picture[0]}}" alt="" class="card-img-top" width="288" height="180">
            
             <div class="card-img-overlay settings">
                 <a class="mc-btn-action " [matMenuTriggerFor]="menu">
@@ -14,6 +23,10 @@
                       <a mat-menu-item href="/user/properties/reservations/:id">
                         <mat-icon>date_range</mat-icon>
                         <span>Reservations</span>
+                      </a>
+                      <a mat-menu-item href="/user/add-property/">
+                        <mat-icon>add</mat-icon>
+                        <span>Add</span>
                       </a>
                       <a mat-menu-item href="/user/properties/edit/:id">
                         <mat-icon>edit</mat-icon>
@@ -42,7 +55,6 @@
                     <p><small class="text-muted">
                         <i class="fas fa-map-marker-alt"></i> {{row.country}}, {{row.state}}</small></p>
               <button  class="btn btn-more btn-sm">More Details</button>
-              <!-- <a href="" class="btn btn-outline-danger btn-sm"><i class="far fa-heart"></i></a> -->
             </div>
            </div>
           </div>
@@ -50,7 +62,6 @@
 
 
      
-       
         </div>
       </div>
       
