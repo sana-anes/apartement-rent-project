@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 })
 export class PropertiesListComponent implements OnInit {
   data: Property[] = [];
-  isLoadingResults = true;
   base_url:string=BASE_URL;
   optionFilter:string="all";
   constructor(private propertyService: PropertyService,

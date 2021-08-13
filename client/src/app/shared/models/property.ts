@@ -1,3 +1,13 @@
+class user{
+  constructor(
+    public _id:string,
+    public firstname:string,
+    public lastname:string,
+    public picture:string[],
+
+  ){}
+};
+
 export class Property {
     constructor(
        public _id: string,
@@ -18,7 +28,7 @@ export class Property {
         }],
         public created_at:Date,
         public updated_at:Date,
-
+        public user: user,
      
      ) {}
    }

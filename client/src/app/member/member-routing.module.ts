@@ -1,10 +1,11 @@
 import { RouterModule, Routes } from '@angular/router';
-import { AccountComponent } from './account/account.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import {PropertiesListComponent } from './properties-list/properties-list.component';
+import { EditPropertyComponent } from './edit-property/edit-property.component';
+import { PropertyDetailsComponent } from './property-details/property-details.component';
 
 const routes: Routes = [
   {
@@ -17,10 +18,6 @@ const routes: Routes = [
             component: HomeComponent,
           },
           {
-            path: 'account',
-            component: AccountComponent,
-          },
-          {
             path: 'reservations',
             component: ReservationComponent,
           },
@@ -31,6 +28,14 @@ const routes: Routes = [
           {
             path: 'properties',
             component: PropertiesListComponent,
+          },
+          {
+            path: 'editProperty/:id',
+            component: EditPropertyComponent,
+          },
+          {
+            path: 'propertyDetails/:id',
+            component: PropertyDetailsComponent,
           },
           // {
           //   path: 'admin',

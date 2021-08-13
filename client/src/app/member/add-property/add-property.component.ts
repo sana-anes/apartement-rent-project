@@ -22,8 +22,8 @@ export class AddPropertyComponent implements OnInit {
   typeHasError = true;
   countryHasError = true;
   rentHasError = true;
-  types=["apartement","house","hotel"]
-  countries=["tunisia","usa","england"]
+  types=["apartement","house","townhome","condos"]
+  countries=["tunisia","france","canada"]
   rentPerOptions=["night","week","month"]
   files:File[]=[];
 
@@ -142,8 +142,14 @@ export class AddPropertyComponent implements OnInit {
         this.filesName=`${this.filesName}  ${event.target.files[i].name}`;
         this.areImages=this.areImages && event.target.files[i].type.startsWith("image");
       }
+      if(!this.areImages){
+        this.filesName="";
+        this.files=[];
+
+      }
 
     } else {
+      this.areImages=true;
       this.validateFile=false;
       this.filesName = 'Choose pictures';
     }
@@ -203,7 +209,9 @@ submit(){
         }
       );
 
-    }  }
+    }  
+  
+  }
 
 
 

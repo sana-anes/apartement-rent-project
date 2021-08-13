@@ -14,21 +14,17 @@
           <div class="card">
             <img src="{{base_url+row.picture[0]}}" alt="" class="card-img-top" width="288" height="180">
            
-            <div class="card-img-overlay settings">
+            <div class="card-img-overlay over-image">
                 <a class="mc-btn-action " [matMenuTriggerFor]="menu">
                     <i class="fas fa-ellipsis-v"></i>
                     </a>
               
                     <mat-menu #menu="matMenu">        
-                      <a mat-menu-item href="/user/properties/reservations/:id">
+                      <a mat-menu-item href="/member/properties/reservations/:id">
                         <mat-icon>date_range</mat-icon>
                         <span>Reservations</span>
                       </a>
-                      <a mat-menu-item href="/user/add-property/">
-                        <mat-icon>add</mat-icon>
-                        <span>Add</span>
-                      </a>
-                      <a mat-menu-item href="/user/properties/edit/:id">
+                      <a mat-menu-item [routerLink]="['/member/editProperty', row._id]">
                         <mat-icon>edit</mat-icon>
                         <span>Edit</span>
                       </a>
@@ -54,7 +50,7 @@
                 </small></p>
                     <p><small class="text-muted">
                         <i class="fas fa-map-marker-alt"></i> {{row.country}}, {{row.state}}</small></p>
-              <button  class="btn btn-more btn-sm">More Details</button>
+              <!-- <button  class="btn btn-more btn-sm">More Details</button> -->
             </div>
            </div>
           </div>

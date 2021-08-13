@@ -1,0 +1,226 @@
+<div class="container ">
+
+  <h1 >EDIT YOUR PROPERTY</h1>
+    <div class="alert alert-danger" 
+    *ngIf="errorMessage">{{errorMessage}}
+    </div>
+
+    <div class="alert alert-success" *ngIf="successMessage">
+        <strong>Success! </strong> {{ successMessage }}.
+    </div>
+    <form 
+      class="register-register-form "
+      novalidate=""
+      [formGroup]="editPropertyForm"
+      >
+    <div class="row">
+
+       <div class=" col-lg-6 col-md-6 mb-4 ">
+             <div class="form-group">
+                <label>Title</label>
+                <input class="form-control"  
+                      formControlName="title"
+                      [class.is-invalid]="title.invalid && title.touched" 
+                      name="title" 
+                      required minlength="3">
+                <small class="text-danger" *ngIf="title.errors?.required  && title.touched">title is required</small>
+                <small class="text-danger" *ngIf="title.errors?.minlength ">title must be at least 3 characters long</small>
+
+            </div>
+
+            <div class="form-group">
+                <label>Type</label>
+                <select formControlName="type" (change)="changeType($event)" 
+                [class.is-invalid]="typeHasError && type.touched"
+                class="custom-select" name="type" 
+                >
+                    <option value="default" >choose a type</option>
+                    <option *ngFor="let type of types" >{{type}}</option>
+                </select>
+                <small class="text-danger" *ngIf=" typeHasError && type.touched">please choose a type</small>
+            </div>
+          
+            <div class="form-group">
+            <div class="form-row">
+                <div class="col">
+                    <label>Country</label>
+                    <select formControlName="country" (change)="changeCountry($event)" 
+                    [class.is-invalid]="countryHasError && country.touched"
+                    class="custom-select" name="country" 
+                    >
+                        <option value="default" >choose a country</option>
+                        <option *ngFor="let country of countries" >{{country}}</option>
+                    </select>
+                    <small class="text-danger" *ngIf=" countryHasError && country.touched">please choose a country</small>
+                </div>
+                   
+                <div class="col">
+                    <label>State</label>
+                    <input type="text" class="form-control" 
+                            formControlName="state"
+                            [class.is-invalid]="state.invalid && state.touched" 
+                            name="state"
+                            required
+                    >
+                    <small class="text-danger" *ngIf="state.errors?.required  && state.touched">state is required</small>
+             
+                </div>
+            </div>
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input  class="form-control"  
+                      formControlName="address" 
+                      [class.is-invalid]="address.invalid && address.touched" 
+                      name="address" 
+                      required minlength="3">
+              <small class="text-danger" *ngIf="address.errors?.required  && address.touched">address is required</small>
+              <small class="text-danger" *ngIf="address.errors?.minlength  ">address must be at least 3 characters long</small>
+            </div>
+
+                            <div class="form-group">
+                <button  mat-button class="btn-add"(click)="addActivity()">
+                <mat-icon>add</mat-icon> Add a nearby activity
+                </button>
+                <button  mat-button class="btn-add"(click)="resetActivity()">
+                <mat-icon>restart_alt</mat-icon> Reset
+                </button>
+                </div>
+                <div *ngFor="let activity of activitiesFormGroups; let i = index" >
+                    <div class="form-group">
+                        <div class="form-row" [formGroup]="activity">
+                            <div class="col">
+                                <label>Name</label>
+                                <input type="text" class="form-control" 
+                                    formControlName="name"
+                                    [class.is-invalid]="activity.controls.name.invalid && activity.controls.name.touched" 
+                                    name="name"
+                                    required
+                                >
+                                <small class="text-danger" *ngIf="activity.controls.name.errors?.required  && activity.controls.name.touched">Name is required</small>
+                            </div>
+                            
+                            <div class="col">
+                                <label>Distance(meter)</label>
+                                <input type="number" class="form-control" 
+                                    formControlName="distance"
+                                    [class.is-invalid]="activity.controls.distance.invalid && activity.controls.distance.touched" 
+                                    name="distance"
+                                    required
+                                >
+                                <small class="text-danger" *ngIf="activity.controls.distance.errors?.required  && activity.controls.distance.touched">Distance is required</small>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+       <div class=" col-lg-6 col-md-6 mb-4 ">
+
+            <div class="form-group">
+                    <label>Number of rooms</label>
+                    <input type="number" class="form-control" 
+                        formControlName="rooms"
+                        [class.is-invalid]="rooms.invalid && rooms.touched" 
+                        name="rooms"
+                        required
+                    >
+                    <small class="text-danger" *ngIf="rooms.errors?.required  && rooms.touched">rooms is required</small>
+                </div>
+                   
+                <div class="form-group">
+                    <label>Number of baths</label>
+                    <input type="number" class="form-control" 
+                        formControlName="baths"
+                        [class.is-invalid]="baths.invalid && baths.touched" 
+                        name="baths"
+                        required
+                    >
+                    <small class="text-danger" *ngIf="baths.errors?.required  && baths.touched">baths is required</small>
+                 </div>
+
+
+
+            <div class="form-group">
+                <div class="form-row">
+                <div class="col">
+                <label>Price</label>
+                <input type="number" class="form-control" 
+                        formControlName="price"
+                        [class.is-invalid]="price.invalid && price.touched" 
+                        name="price"
+                        required
+                >
+                <small class="text-danger" *ngIf="price.errors?.required  && price.touched">price is required</small>
+                </div>
+                <div class="col">
+                    <label>Per</label>
+                    <select formControlName="rentPer" (change)="changeRentPer($event)" 
+                    [class.is-invalid]="rentHasError && rentPer.touched"
+                    class="custom-select" name="rentPer" 
+                    >
+                        <option value="default" >choose an option</option>
+                        <option *ngFor="let option of rentPerOptions" >{{option}}</option>
+                    </select>
+                    <small class="text-danger" *ngIf=" rentHasError && rentPer.touched">please choose an option</small>
+                </div>
+            </div>    
+            </div>
+           <div class="form-group">
+                        <div class="custom-file d-flex flex-row-reverse">
+                            <input type="file" class="custom-file-input form-control" id="customFile" multiple
+                             (change)="uploadFiles($event)">
+                            <label class="custom-file-label text-right" for="customFile">{{filesName}}</label>
+                        </div>
+                        <small class="text-danger" *ngIf="!areImages">only image required</small>
+
+            </div> 
+            <div class="row images-box">
+                <div class="col" *ngFor="let img of pictures">
+                    <img src="{{base_url+img}}" alt="" class="card-img-top" width="30" height="40">
+                    <div class="card-img-overlay over-image">
+                        <a class="mc-btn-action ">
+                            <i class="fas fa-times" (click)="deleteImage(img)"></i>     
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                    <button class="btn btn-submit" mat-button (click)="edit()" [disabled]="editPropertyForm.invalid ||  typeHasError || countryHasError ||  rentHasError || !areImages" >Edit</button>
+
+
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    
+
+
+    </form>
+ 
+</div>
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  

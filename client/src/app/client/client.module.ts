@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
 import { AboutComponent } from './about/about.component';
+import { HelpComponent } from './help/help.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
-import { DetailsComponent } from './details/details.component';
 import { SearchComponent } from './search/search.component';
 import { RoutingModule } from './routing.module';
 import { SharedModule } from './../shared/shared.module';
@@ -19,10 +19,10 @@ import { SharedModule } from './../shared/shared.module';
     MainComponent,
     AboutComponent,
     ContactUsComponent,
-    DetailsComponent,
     SearchComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    HelpComponent
   ],
 
   imports: [
