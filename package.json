@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@stripe/stripe-js": "^1.17.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "debug": "^4.3.1",
@@ -32,6 +33,7 @@
     "nodemailer": "^6.6.3",
     "path": "^0.12.7",
     "react-material-ui-carousel": "^2.2.6",
+    "stripe": "^8.170.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {

@@ -1,0 +1,65 @@
+
+
+/*--------------------------------------------------------------
+# Sections
+--------------------------------------------------------------*/
+section {  
+  padding: 10px 0;
+	overflow: hidden;
+  width: 100%;
+  }
+  /*--------------------------------------------------------------
+# forms
+--------------------------------------------------------------*/
+.forms{
+	margin:0;
+}
+.forms .content {
+	padding: 20px;
+  }
+  .form-box{
+    width: 600px;
+    margin:0 auto;
+  }
+  @media screen and (max-width: 800px) {
+    .form-box{
+      width: auto;
+      margin:0 auto;
+    }
+  }
+
+
+  /*--------------------------------------------------------------
+  # options
+  --------------------------------------------------------------*/
+.options{
+  width: 90%;
+  margin:0 auto;
+}
+.options .option-box {
+	display: flex;
+	align-items: center;
+	padding: 30px;
+  margin-bottom: 10px;
+	width:auto;
+  height: 50px;
+	background: #fff;
+	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+}
+.options .option-box i {
+	font-size: 25px;
+	line-height: 0;
+	margin-right: 20px;
+	color: #464b52;
+  }
+  
+.options .option-box span {
+	font-size: 20px;
+	display: block;
+	font-weight: 600;
+  font-family: "Nunito", sans-serif;
+	color: #464b52;
+  }
+
+  

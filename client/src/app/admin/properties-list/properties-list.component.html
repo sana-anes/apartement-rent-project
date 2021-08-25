@@ -1,0 +1,64 @@
+        <div class="container">
+        
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul class="options-flters">
+              <li [ngClass]="{active:optionFilter=='all'}" (click)="option('all')">All</li>
+              <li [ngClass]="{active:optionFilter=='pending'}" (click)="option('pending')">Pending</li>
+              <li [ngClass]="{active:optionFilter=='accepted'}" (click)="option('accepted')">Accepted</li>
+            </ul>
+          </div>
+        </div>
+          <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4" *ngFor="let row of data">
+          <div class="card">
+            <img src="{{base_url+row.picture[0]}}" alt="" class="card-img-top" width="288" height="180">
+           
+            <div class="card-img-overlay over-image">
+                <a class="mc-btn-action " [matMenuTriggerFor]="menu">
+                    <i class="fas fa-ellipsis-v"></i>
+                    </a>
+              
+                    <mat-menu #menu="matMenu">        
+                      <a mat-menu-item href="/member/properties/reservations/:id">
+                        <mat-icon>date_range</mat-icon>
+                        <span>Reservations</span>
+                      </a>
+                      <a mat-menu-item [routerLink]="['/member/editProperty', row._id]">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                      </a>
+                      <a mat-menu-item (click)="delete(row._id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                     </a>
+                  </mat-menu> 
+            </div> 
+            <div class="card-body">
+              <h2 class="card-title" >{{row.title}}</h2>
+              <p class="card-text">Type : {{row.type}} </p>
+              <p class="card-text status border-bottom-0" *ngIf="row.status==='pending'">Status : <span class="waiting">{{row.status}}</span></p>
+              <p class="card-text status border-bottom-0" *ngIf="row.status==='accepted'">Status : <span class="active">{{row.status}}</span></p>
+
+              <p class="card-text"><small class="text-muted">
+                <i class="fas fa-map-marker-alt"></i>{{row.country}}, {{row.state}}
+                <i class="far fa-clock"></i>{{row.created_at | date:'MMM d, y' }}
+
+            </small></p>
+              <p class="card-text">
+                  <small class="text-muted">
+                    <i class="fas fa-bed"></i>{{row.rooms}}
+                    <i class="fas fa-bath"></i>{{row.baths}} 
+                    <i class="fas fa-money-bill-wave"></i>{{row.price}} DT/ {{row.rentPer}}
+                </small></p>
+                   
+            </div>
+           </div>
+          </div>
+   
+
+
+     
+        </div>
+      </div>
+      

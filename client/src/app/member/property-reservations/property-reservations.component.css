@@ -1,0 +1,86 @@
+
+.status button{
+    padding: 0;
+    border: none;
+    background: none;
+  }
+  .status span {
+    position: relative;
+    padding: 4px 10px 4px 10px; 
+      box-shadow: 0 0 1px 1px rgba(158, 156, 156, 0.1);
+  
+  }
+  .status .active {
+    background: #FFC107;
+    color: #ffffff; }
+  
+  .status .waiting {
+    background: #E34724;
+    color: #ffffff; }
+  
+  .table-responsive {
+      margin: 30px 0;
+    }
+    .table-wrapper {
+      min-width: 1000px;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+  
+  table.table td button {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 0;
+    border: none;
+    background: none;
+  
+  }
+  table.table td button.view {
+    color: #FFC107;
+  }
+  table.table td button.delete {
+    color: #E34724;
+  }
+  table.table td i {
+    font-size: 19px;
+  }    
+  .container-fluid{
+    margin-bottom: 60px;
+  }
+  .pagination {
+    float: right;
+    margin: 0 0 10px;
+  }
+  .pagination li a , button a{
+    border: none;
+    font-size: 95%;
+    width: 40px;
+    height: 30px;
+    color: #999;
+    margin: 0 2px;
+    line-height: 30px;
+    border-radius: 30px !important;
+    text-align: center;
+    padding: 0;
+  }
+  .pagination li a:hover {
+    color: #666;
+  }	
+  
+  .pagination li  button {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 0;
+    border: none;
+    background: none;
+  
+  }
+  .pagination button i {
+    color: #999;
+  }
+  .pagination li i {
+    font-size: 16px;
+    padding-top: 6px;
+  
+  }

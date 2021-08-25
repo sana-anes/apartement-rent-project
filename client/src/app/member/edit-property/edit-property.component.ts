@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PropertyService } from 'src/app/shared/services';
+import { ContentService, PropertyService } from 'src/app/shared/services';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BASE_URL } from '../../../environments/environment';
 import { Property } from '../../shared/models/property';
+import { Category ,Country} from 'src/app/shared/models/content';
 
 const API_URL = BASE_URL+'/api/property/';
 const params = new HttpParams();
@@ -22,10 +23,8 @@ export class EditPropertyComponent implements OnInit {
   successMessage:string='';
   typeHasError = false;
   countryHasError =  false;
-  rentHasError =  false;
-  types=["apartement","house","townhome","condos"];
-  countries=["tunisia","france","canada"];
-  rentPerOptions=["night","week","month"];
+  types:Category[]=[];
+  countries:Country[]=[];
   files:File[]=[];
   data!: Property;
   pictures:string[]=[];
@@ -36,6 +35,7 @@ export class EditPropertyComponent implements OnInit {
 
   constructor(
     private propertyService: PropertyService,
+    private  contentService:  ContentService,
     private router: Router,
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -44,6 +44,15 @@ export class EditPropertyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.contentService.getContent()
+    .subscribe((res: any) => {
+     this.countries = res.country;
+     this.types=res.category;
+      console.log(res);
+ 
+    }, err => {
+      console.log(err);
+    });
 
      this.id = this.activatedRoute.snapshot.params.id;
     this.propertyService.getPropertiesById(this.id)
@@ -58,13 +67,13 @@ export class EditPropertyComponent implements OnInit {
   
       }));
       }
-      console.log(this.data);
 
     }, err => {
       console.log(err);
     });
 
 
+  
 
 
   }
@@ -77,7 +86,6 @@ export class EditPropertyComponent implements OnInit {
     rooms: new FormControl('', [Validators.required]),
     baths: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required]),
-    rentPer: new FormControl('', [Validators.required]),
     activities: new FormArray([]),
   
   });
@@ -108,9 +116,7 @@ export class EditPropertyComponent implements OnInit {
   get price(): AbstractControl {
     return this.editPropertyForm.get('price')!;
   }
-  get rentPer(): AbstractControl {
-    return this.editPropertyForm.get('rentPer')!;
-  }
+
 
   get form() { return this.editPropertyForm.controls; }
   get activities() { return this.form.activities as FormArray; }
@@ -144,13 +150,7 @@ export class EditPropertyComponent implements OnInit {
     })
   }
 
-  changeRentPer(e:any) {
-    if(e.target.value==='default') this.rentHasError=true;
-    else this.rentHasError=false;
-    this.rentPer.setValue(e.target.value, {
-      onlySelf: true
-    })
-  }
+
 
 
   uploadFiles(event: any): void {
@@ -197,7 +197,6 @@ if(this.editPropertyForm.valid){
   formData.append("rooms", this.editPropertyForm.value.rooms);
   formData.append("baths", this.editPropertyForm.value.baths);
   formData.append("price", this.editPropertyForm.value.price);
-  formData.append("rentPer", this.editPropertyForm.value.rentPer);
   formData.append("activities", JSON.stringify(this.editPropertyForm.value.activities));
   formData.append("picture", JSON.stringify(this.pictures));
 

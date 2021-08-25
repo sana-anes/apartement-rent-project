@@ -1,0 +1,114 @@
+
+/*--------------------------------------------------------------
+# Sections
+--------------------------------------------------------------*/
+section {  
+    padding: 10px 0;
+      overflow: hidden;
+    width: 100%;
+    }
+
+    /*--------------------------------------------------------------
+    # options
+    --------------------------------------------------------------*/
+  .options{
+    width: 90%;
+    margin:0 auto;
+  }
+  .options .option-box {
+      align-items: center;
+      padding: 30px;
+    margin-bottom: 10px;
+      width:auto;
+    height: auto;
+      background: #fff;
+      box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+  }
+
+    
+  .options .option-box .option-title {
+      font-size: 20px;
+      display: block;
+      font-weight: 600;
+      font-family: "Poppins", sans-serif;
+      color: #464b52;
+margin-bottom: 20px;
+    }
+
+      .options-item{
+        padding: 0;
+        margin: 0 auto 20px auto;
+        list-style: none;
+        text-align: center;
+      }
+      
+      .options-item li  {
+        cursor: pointer;
+        display: inline-block;
+        padding: 8px 16px 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        transition: all 0.3s ease-in-out;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .category li {
+        color: #eb7878;
+        border: 1px solid #eb7878;
+        border-radius: 50px;
+    
+       }
+       .country li {
+        color: #0391e4;
+        border: 1px solid #0391e4;
+        border-radius: 50px;
+    
+       }
+      .category input {
+        cursor: pointer;
+        display: inline-block;
+        padding: 8px 16px 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        color: #eb7878;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        transition: all 0.3s ease-in-out;
+        border: 1px solid #eb7878;
+        border-radius: 50px;
+        font-family: "Poppins", sans-serif;
+        width: auto;
+      }
+      .country input {
+        cursor: pointer;
+        display: inline-block;
+        padding: 8px 16px 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        color: #0391e4;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        transition: all 0.3s ease-in-out;
+        border: 1px solid #0391e4;
+        border-radius: 50px;
+        font-family: "Poppins", sans-serif;
+        width: auto;
+      }
+
+      .category li a i{
+          font-size: 15px;
+          color: #eb7878;
+          margin-left: 5px;
+        }
+      .country li a i{
+          font-size: 15px;
+          color: #0391e4;
+          margin-left: 5px;
+        }

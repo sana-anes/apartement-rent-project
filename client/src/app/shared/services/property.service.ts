@@ -35,22 +35,54 @@ export class PropertyService {
 
   }
 
-  getProperties(): Observable<Property[]> {  
-    return this.http.get<Property[]>(`${API_URL}`)
-  }
+  // getProperties(): Observable<Property[]> {  
+  //   return this.http.get<Property[]>(`${API_URL}`)
+  // }
   getPropertiesById(id:string): Observable<Property[]> {  
-    return this.http.get<Property[]>(`${API_URL}/single/${id}`)
+    return this.http.get<Property[]>(`${API_URL}single/${id}`)
   }
-  getPropertiesByStatus(status:string): Observable<Property[]> {
-    return this.http.get<Property[]>(`${API_URL}status/${status}`)
+  
+  getPropertiesByStatus(status:string,page:number=0): Observable<Property[]> { //user properties user
+
+    const httpOptions = {
+      headers: { 'Content-Type': 'application/json' },
+      params: { 
+       status:status,
+      page:page
+      }
+    };
+    return this.http.get<Property[]>(`${API_URL}status`,httpOptions)
+
   }
 
-  getAllProperties(): Observable<Property[]> {
-    return this.http.get<Property[]>(`${API_URL}all`)
+  getAllProperties(type:string='all',country:string='all',property:string='all',rooms:string='',baths:string='',page:number=0): Observable<Property[]> { //all properties admin
+    
+    const httpOptions = {
+      headers: { 'Content-Type': 'application/json' },
+      params: { 
+        type:type,
+        country: country,
+        property:property,
+        rooms: rooms,
+        baths :baths,
+        page:page
+      }
+    };
+    return this.http.get<Property[]>(`${API_URL}all`,httpOptions)
   }
 
-  getOtherProperties(): Observable<Property[]> {
-    return this.http.get<Property[]>(`${API_URL}others`)
+  getOtherProperties(type:string='all',country:string='all',rooms:string='',baths:string='',page:number=0): Observable<Property[]> { // other users properties user
+    const httpOptions = {
+      headers: { 'Content-Type': 'application/json' },
+      params: { 
+        type:type,
+        country: country,
+        rooms: rooms,
+        baths :baths,
+        page:page
+      }
+    };
+    return this.http.get<Property[]>(`${API_URL}others`,httpOptions)
   }
 
   saveProperty(id:String): Observable<any> {
@@ -73,7 +105,9 @@ export class PropertyService {
     return this.http.delete(`${API_URL}delete`,options);
   }
    
-  
+  accepteProperty(id:String):Observable<any> {
 
+    return this.http.post(`${API_URL}accepte`,{id:id},httpOptions);
+  }
 
 }

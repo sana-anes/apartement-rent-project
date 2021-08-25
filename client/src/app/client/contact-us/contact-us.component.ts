@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { FormGroup, FormControl, Validators, ValidationErrors,AbstractControl } from '@angular/forms';
 
-const FEEDBACK_API ='http://localhost:3000/api/client/';
+const FEEDBACK_API ='http://localhost:3000/api/feedback/';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };

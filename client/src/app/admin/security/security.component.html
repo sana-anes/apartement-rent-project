@@ -1,0 +1,60 @@
+ <div class=" container ">
+ <h1>Password Change</h1>
+    <div class="alert alert-danger" 
+    *ngIf="errorMessage">{{errorMessage}}
+    </div>
+    <div class="alert alert-success" 
+    *ngIf="successMessage">{{successMessage}}
+    </div>
+
+    <form 
+      class="register-register-form"
+      novalidate=""
+      [formGroup]="passwordForm"
+      >
+    
+            <div class="form-group">
+              <label>Old Password</label>
+              <input  class="form-control"  
+                      formControlName="old_password"
+                    [class.is-invalid]="old_password.invalid && old_password.touched " 
+                      type="password" 
+                      name="old_password" 
+                      required minlength="6">
+              <small class="text-danger" *ngIf="old_password.errors?.required && old_password.touched">Old password is required</small>
+
+       
+        </div>     
+    
+ 
+        <div class="form-group">
+              <label>New Password</label>
+              <input  class="form-control"  
+                      formControlName="new_password"
+                    [class.is-invalid]="new_password.invalid && new_password.touched " 
+                      type="password" 
+                      name="new_password" 
+                      required minlength="6">
+              <small class="text-danger" *ngIf="new_password.errors?.required && new_password.touched">New password is required</small>
+              <small class="text-danger" *ngIf="new_password.errors?.minlength">New password must be at least 6 characters long</small>
+
+       
+        </div>
+
+        <div class="form-group">
+              <label>Confirm Password</label>
+              <input  class="form-control"  
+                      formControlName="confirm_password"
+                      [class.is-invalid]="confirm_password.invalid && confirm_password.touched" 
+                      type="password" 
+                      name="confirm_password" 
+                      required>
+              <small class="text-danger" *ngIf="confirm_password.errors?.required && confirm_password.touched">Confirm password is required</small>
+              <small class="text-danger" *ngIf="confirm_password.invalid && ! confirm_password.errors?.required ">Password mismatch</small>
+        </div> 
+
+    </form>
+    <button class="btn btn-submit" (click)="save()" [disabled]="passwordForm.invalid" color="primary">Save</button>
+
+    </div>
+

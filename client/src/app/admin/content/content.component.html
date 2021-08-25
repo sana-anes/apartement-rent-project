@@ -1,0 +1,77 @@
+<div class="container">
+  <section  class="options">
+    <div class="container" >
+
+      <div class="row gy-4 ">
+
+        <div class="col-lg-6 col-md-6" >
+            <div class=" option-box" >
+                 <div class="option-title">Property Categories </div>
+                <ul class="options-item category">
+                 
+                    <a ><input class="form-control" 
+                      type="text" 
+                        placeholder="+ ADD CATEGORY"                   
+                         name="category"
+                         (keydown.enter)="addCategory($event)"
+
+                         ></a>
+                  <li *ngFor="let category of categories"><a >{{category.label }}<i class="fas fa-times" title="delete" (click)="deleteCategory(category._id)"></i></a></li>
+        
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+            <div class="option-box" >
+                 <div class="option-title">Countries</div>
+                 <ul class="options-item country">
+                 
+                  <a ><input class="form-control" 
+                    type="text" 
+                      placeholder="+ ADD COUNTRY"                   
+                       name="country"
+                       (keydown.enter)="addCountry($event)"
+
+                       
+                       ></a>
+                       <li *ngFor="let country of countries"><a >{{country.label }}<i class="fas fa-times" title="delete" (click)="deleteCountry(country._id)"></i></a></li>
+              </ul>
+            </div>
+        </div>
+      
+      </div>
+      <!-- <div class="row gy-4 ">
+
+        <div class="col-lg-6 col-md-6" >
+            <div class=" option-box" >
+                 <div class="option-title">Logo </div>
+                <ul class="options-item category">
+                  <a ><input class="form-control" 
+                    type="text" 
+                      placeholder="upload new logo"                   
+                       name="category"></a>
+
+                    <a ><input class="form-control" 
+                      type="text" 
+                        placeholder="barnd label"                   
+                         name="category"></a>
+
+                
+                </ul>
+            </div>
+        </div>
+
+    
+      
+      </div> -->
+
+    </div>
+
+  </section>
+</div>
+
+
+
+
+

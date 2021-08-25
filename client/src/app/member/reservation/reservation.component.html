@@ -1,131 +1,155 @@
-		<div class="container">
+		<!-- <div class="container">
+		  <div class="row" data-aos="fade-up" >
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul class="options-flters">
+              <li [ngClass]="{active:optionFilter=='all'}" (click)="option('all')">All</li>
+              <li [ngClass]="{active:optionFilter=='not confirmed'}" (click)="option('pending')">Not confirmed</li>
+              <li [ngClass]="{active:optionFilter=='confirmed'}" (click)="option('confirmed')">Confirmed</li>
+            </ul>
+          </div>
+        </div>
             <div class="row">
 				<div class="col-md-12">
 					<div class="table-wrap">
 						<table class="table table-responsive-xl">
 						  <thead>
 						    <tr>
-						    	<th>&nbsp;</th>
-						    	<th>Email</th>
-						      <th>Username</th>
-						      <th>Status</th>
-						      <th>&nbsp;</th>
+						    	<th>booked at </th>
+						      <th>Check-in</th>
+						      <th>Check-out</th>
+							  <th>Total price</th>
+							  <th>Status</th>
+							  <th>Actions</th>
+
 						    </tr>
 						  </thead>
 						  <tbody>
-						    <tr class="alert" role="alert">
-						    	<td>
-						    		<label class="checkbox-wrap checkbox-primary">
-										  <input type="checkbox" checked>
-										  <span class="checkmark"></span>
-										</label>
-						    	</td>
-						      <td class="d-flex align-items-center">
-						      	<div class="img" style="background-image: url(images/person_1.jpg);"></div>
-						      	<div class="pl-3 email">
-						      		<span>markotto@email.com</span>
-						      		<span>Added: 01/03/2020</span>
-						      	</div>
+						    <tr *ngFor="let row of data ;">
+
+						      <td >
+							  {{row.created_at | date:'MMM d, y'}} 
 						      </td>
-						      <td>Markotto89</td>
-						      <td class="status"><span class="active">Active</span></td>
+						      <td> {{row.check_in | date:'MMM d, y'}} </td>
+							  <td> {{row.check_out | date:'MMM d, y'}} </td>
+							  <td> {{row.total_price}} </td>
+
+			<td class="status" *ngIf="row.status==='pending'"> <span class="waiting">{{row.status}}</span></td>
+              <td class="status" *ngIf="row.status==='confirmed'"><span class="active">{{row.status}}</span></td>
 						      <td>
-						      	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				            	<span aria-hidden="true"><i class="fa fa-close"></i></span>
-				          	</button>
-				        	</td>
+								<button  class="btn btn-delete" (click)="delete(row._id)"> delete       
+								  </button>				        	
+								</td>
 						    </tr>
-						    <tr class="alert" role="alert">
-						    	<td>
-						    		<label class="checkbox-wrap checkbox-primary">
-										  <input type="checkbox">
-										  <span class="checkmark"></span>
-										</label>
-						    	</td>
-						      <td class="d-flex align-items-center">
-						      	<div class="img" style="background-image: url(images/person_2.jpg);"></div>
-						      	<div class="pl-3 email">
-						      		<span>jacobthornton@email.com</span>
-						      		<span>Added: 01/03/2020</span>
-						      	</div>
-						      </td>
-						      <td>Jacobthornton</td>
-						      <td class="status"><span class="waiting">Waiting for Resassignment</span></td>
-						      <td>
-						      	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				            	<span aria-hidden="true"><i class="fa fa-close"></i></span>
-				          	</button>
-				        	</td>
-						    </tr>
-						    <tr class="alert" role="alert">
-						    	<td>
-						    		<label class="checkbox-wrap checkbox-primary">
-										  <input type="checkbox">
-										  <span class="checkmark"></span>
-										</label>
-						    	</td>
-						      <td class="d-flex align-items-center">
-						      	<div class="img" style="background-image: url(images/person_3.jpg);"></div>
-						      	<div class="pl-3 email">
-						      		<span>larrybird@email.com</span>
-						      		<span>Added: 01/03/2020</span>
-						      	</div>
-						      </td>
-						      <td>Larry_bird</td>
-						      <td class="status"><span class="active">Active</span></td>
-						      <td>
-						      	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				            	<span aria-hidden="true"><i class="fa fa-close"></i></span>
-				          	</button>
-				        	</td>
-						    </tr>
-						    <tr class="alert" role="alert">
-						    	<td>
-						    		<label class="checkbox-wrap checkbox-primary">
-										  <input type="checkbox">
-										  <span class="checkmark"></span>
-										</label>
-						    	</td>
-						      <td class="d-flex align-items-center">
-						      	<div class="img" style="background-image: url(images/person_4.jpg);"></div>
-						      	<div class="pl-3 email">
-						      		<span>johndoe@email.com</span>
-						      		<span>Added: 01/03/2020</span>
-						      	</div>
-						      </td>
-						      <td>Johndoe1990</td>
-						      <td class="status"><span class="active">Active</span></td>
-						      <td>
-						      	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				            	<span aria-hidden="true"><i class="fa fa-close"></i></span>
-				          	</button>
-				        	</td>
-						    </tr>
-						    <tr class="alert" role="alert">
-						    	<td class="border-bottom-0">
-						    		<label class="checkbox-wrap checkbox-primary">
-										  <input type="checkbox">
-										  <span class="checkmark"></span>
-										</label>
-						    	</td>
-						      <td class="d-flex align-items-center border-bottom-0">
-						      	<div class="img" style="background-image: url(images/person_1.jpg);"></div>
-						      	<div class="pl-3 email">
-						      		<span>garybird@email.com</span>
-						      		<span>Added: 01/03/2020</span>
-						      	</div>
-						      </td>
-						      <td class="border-bottom-0">Garybird_2020</td>
-						      <td class="status border-bottom-0"><span class="waiting">Waiting for Resassignment</span></td>
-						      <td class="border-bottom-0">
-						      	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				            	<span aria-hidden="true"><i class="fa fa-close"></i></span>
-				          	</button>
-				        	</td>
-						    </tr>
+						    
 						  </tbody>
 						</table>
 					</div>
 				</div>
 			</div>
+		</div> -->
+	<div class="container">
+			<div class="container-fluid">
+		
+				<div class="card mb-4">
+				  <div class="card-header">
+					<div class="row">
+						<div class="col-lg-9 col-md-9 " >
+							<h1>Reservations List</h1>
+						</div>
+						<div class="col-lg-3 col-md-3">
+							<form  [formGroup]="filterForm"
+								>
+								  <div class="form-row">
+									  <div class="col">
+										  <select formControlName="status" (change)="changeStatus($event)"
+										  class="custom-select search-item" name="status" 
+										  >
+											  <option value="all" >All</option>
+										<option *ngFor="let status of statusArray" >{{status}}</option>
+					
+										  </select>
+									  </div>
+									
+									  <!-- <div class="col-8">
+										<div class="input-group">
+											
+											<input
+											class="form-control"
+											type="text"
+											name="firstname"
+											placeholder="Search"
+											aria-label="Search"
+											aria-describedby="basic-addon2"
+											formControlName="search"
+											/>
+											<div class="input-group-append">
+											<button class="btn btn-default"  (click)="searchAction()">
+												<i class="fas fa-search" ></i>
+											</button>
+											</div>
+										</div>
+									  </div> -->
+									</div>
+							</form>			  
+						</div>
+					</div>
+				  </div>
+				  <div class="card-body">
+					<div class="table-responsive">
+					  <table
+						class="table table-bordered"
+						id="dataTable"
+						width="100%"
+						cellSpacing={0}
+					  >
+						<thead>
+						  <tr>
+							<th>#</th>
+							<th>Property</th>
+							<!-- <th>Renter</th> -->
+							<th>Booked at </th>
+							<th>Check-in</th>
+							<th>Check-out </th>
+							<th>Fees</th>
+							<th>Status</th>
+							<th>Actions</th>
+						  </tr>
+						</thead>
+						<tbody>
+						
+							<tr *ngFor="let row of data ;let i = index ">
+								<td>{{i+1+(pageN-1)*perPage}}</td>
+								<td>{{row.property.title}}</td>
+								<!-- <td>{{row.user.firstname}} {{row.user.lastname}}</td> -->
+								<td>{{row.created_at | date:'MMM d, y'}}</td>
+								<td>{{row.check_in | date:'MMM d, y'}}</td>
+								<td>{{row.check_out | date:'MMM d, y'}}</td>
+								<td>{{row.total_price}}</td>
+
+								<td class="status"> <button><span disabled="row.status==='confirmed'" *ngIf="row.status==='confirmed'"  class="active">{{row.status}}</span>
+									<span  *ngIf="row.status==='not confirmed'"  class="waiting" (click)="confirm(row._id)">confirm here</span>
+								</button></td>
+								<td>
+									<button  class="view" title="View Property" data-toggle="tooltip"><i class="material-icons" [routerLink]="['/member/propertyDetails', row.property._id]">&#xE417;</i></button>
+									<button  class="delete" title="Cancel Reservation" data-toggle="tooltip"><i class="material-icons" (click)="delete(row._id)">&#xE872;</i></button>
+								</td>
+							</tr>
+						
+						</tbody>
+					  </table>
+					  <div class="clearfix">
+						<ul class="pagination">
+							<li class="page-item"  (click)="back()"><button disabled="pageN < 1"><i class="fa fa-angle-double-left"></i></button></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN < total">{{pageN*perPage}}/{{total}}</a></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN > total">{{total}}/{{total}}</a></li>
+							<li class="page-item" (click)="forward()" ><button  disabled="(pageN + 1)*perPage > total " ><i class="fa fa-angle-double-right"></i></button></li>
+						</ul>
+					</div>
+					</div>
+				  </div>
+
+				</div>
+			  </div>
+		   
 		</div>
+	

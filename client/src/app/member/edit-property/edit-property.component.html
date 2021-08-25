@@ -35,7 +35,7 @@
                 class="custom-select" name="type" 
                 >
                     <option value="default" >choose a type</option>
-                    <option *ngFor="let type of types" >{{type}}</option>
+                    <option *ngFor="let type of types" >{{type.label}}</option>
                 </select>
                 <small class="text-danger" *ngIf=" typeHasError && type.touched">please choose a type</small>
             </div>
@@ -49,7 +49,7 @@
                     class="custom-select" name="country" 
                     >
                         <option value="default" >choose a country</option>
-                        <option *ngFor="let country of countries" >{{country}}</option>
+                        <option *ngFor="let country of countries" >{{country.label}}</option>
                     </select>
                     <small class="text-danger" *ngIf=" countryHasError && country.touched">please choose a country</small>
                 </div>
@@ -145,7 +145,7 @@
             <div class="form-group">
                 <div class="form-row">
                 <div class="col">
-                <label>Price</label>
+                <label>Price/Night</label>
                 <input type="number" class="form-control" 
                         formControlName="price"
                         [class.is-invalid]="price.invalid && price.touched" 
@@ -154,17 +154,7 @@
                 >
                 <small class="text-danger" *ngIf="price.errors?.required  && price.touched">price is required</small>
                 </div>
-                <div class="col">
-                    <label>Per</label>
-                    <select formControlName="rentPer" (change)="changeRentPer($event)" 
-                    [class.is-invalid]="rentHasError && rentPer.touched"
-                    class="custom-select" name="rentPer" 
-                    >
-                        <option value="default" >choose an option</option>
-                        <option *ngFor="let option of rentPerOptions" >{{option}}</option>
-                    </select>
-                    <small class="text-danger" *ngIf=" rentHasError && rentPer.touched">please choose an option</small>
-                </div>
+         
             </div>    
             </div>
            <div class="form-group">
@@ -187,7 +177,7 @@
                 </div>
             </div>
 
-                    <button class="btn btn-submit" mat-button (click)="edit()" [disabled]="editPropertyForm.invalid ||  typeHasError || countryHasError ||  rentHasError || !areImages" >Edit</button>
+                    <button class="btn btn-submit" mat-button (click)="edit()" [disabled]="editPropertyForm.invalid ||  typeHasError || countryHasError ||  !areImages" >Edit</button>
 
 
 

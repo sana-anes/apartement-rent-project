@@ -33,10 +33,7 @@ const routes: Routes = [
           //   path: '**',
           //   redirectTo: 'pageNotFound'
           // }
-      // { 
-      //   path: 'updatePassword',
-      //   component: UpdatePasswordComponent 
-      // }
+    
     ]
 
   }

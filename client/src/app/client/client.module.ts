@@ -7,9 +7,9 @@ import { MainComponent } from './main/main.component';
 import { AboutComponent } from './about/about.component';
 import { HelpComponent } from './help/help.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
-import { SearchComponent } from './search/search.component';
 import { RoutingModule } from './routing.module';
 import { SharedModule } from './../shared/shared.module';
+import { SearchComponent } from './search/search.component';
 
 
 
@@ -19,7 +19,6 @@ import { SharedModule } from './../shared/shared.module';
     MainComponent,
     AboutComponent,
     ContactUsComponent,
-    SearchComponent,
     FooterComponent,
     HeaderComponent,
     HelpComponent

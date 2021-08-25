@@ -9,7 +9,9 @@ const path = require("path");
 const auth = require("../routes/api/auth");
 const property = require("../routes/api/property");
 const user = require("../routes/api/user");
-const client = require("../routes/api/client");
+const feedback = require("../routes/api/feedback");
+const reservation = require("../routes/api/reservation");
+const content = require("../routes/api/content");
 
 
 module.exports = (app) => {
@@ -22,7 +24,9 @@ module.exports = (app) => {
   app.use("/api/user", user);
   app.use("/api/property", property);
   app.use("/api/auth", auth);
-  app.use("/api/client", client);
+  app.use("/api/feedback", feedback);
+  app.use("/api/reservation", reservation);
+  app.use("/api/content", content);
 
 
 

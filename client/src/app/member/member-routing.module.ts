@@ -6,6 +6,8 @@ import { ReservationComponent } from './reservation/reservation.component';
 import {PropertiesListComponent } from './properties-list/properties-list.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
 import { PropertyDetailsComponent } from './property-details/property-details.component';
+import { AccountComponent } from './account/account.component';
+import { PropertyReservationsComponent } from './property-reservations/property-reservations.component';
 
 const routes: Routes = [
   {
@@ -37,14 +39,15 @@ const routes: Routes = [
             path: 'propertyDetails/:id',
             component: PropertyDetailsComponent,
           },
-          // {
-          //   path: 'admin',
-          //   loadChildren: () => import('../auth/auth.module').then(m => m.AuthModule),
-          // },
-             // {
-          //   path: 'user',
-          //   loadChildren: () => import('../auth/auth.module').then(m => m.AuthModule),
-          // },
+          {
+            path: 'account',
+            component: AccountComponent,
+          },
+          {
+            path: 'propertyReservations/:id',
+            component: PropertyReservationsComponent,
+          },
+     
     ],
   },
 ];

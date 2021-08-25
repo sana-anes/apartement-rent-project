@@ -11,8 +11,14 @@ import { AddPropertyComponent } from './add-property/add-property.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { SharedModule } from '../shared/shared.module';
 import { PropertyDetailsComponent } from './property-details/property-details.component';
-import { MatCarouselModule } from '@ngmodule/material-carousel';
-import {IvyCarouselModule} from 'angular-responsive-carousel';
+import { CarouselModule, WavesModule } from 'angular-bootstrap-md'
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { AccountComponent } from './account/account.component';
+import { PersonelInfoComponent } from './personel-info/personel-info.component';
+import { SecurityComponent } from './security/security.component';
+import { PropertyReservationsComponent } from './property-reservations/property-reservations.component';
+
 
 @NgModule({
   declarations: [
@@ -23,15 +29,20 @@ import {IvyCarouselModule} from 'angular-responsive-carousel';
     AddPropertyComponent,
     ReservationComponent,
     NavbarComponent,
-    PropertyDetailsComponent
+    PropertyDetailsComponent,
+    AccountComponent,
+    PersonelInfoComponent,
+    SecurityComponent,
+    PropertyReservationsComponent
   ],
   imports: [
     CommonModule,
     MemberRoutingModule,
     SharedModule,
-    MatCarouselModule.forRoot(),
-    IvyCarouselModule
-
+    CarouselModule,
+     WavesModule,
+     MatDatepickerModule,
+     MatNativeDateModule
   ]
 })
 export class MemberModule { }

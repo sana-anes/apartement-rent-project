@@ -1,26 +1,44 @@
 const express = require("express");
-const { User, validate } = require("../../models/User");
+const { User } = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const _ = require("lodash");
 const auth = require("../../middleware/auth");
+const admin = require("../../middleware/admin");
 const router = express.Router();
 const debug = require("debug")("app:routes");
-const Joi = require("joi");
-const { join, basename } = require("path");
-const { moveFile, deleteFile } = require("../../utilities/fileManager");
 
-const {
-  uploadImage,
-  fileUploadPaths,
-} = require("../../middleware/uploadHandler");
-
+const getUsers = async (query, page = 0, perPage = 10) => {
+  return await User.find(query)  
+    .sort({created_at: -1})
+    .limit(perPage)
+    .skip(perPage * page);
+};
 
 // @route   GET api/v1/user/users
 // @desc    all user info
 // @access  public
-router.get("/users", async (req, res) => {
-  const user = await User.find();
-  res.json(user);
+router.get("/all", admin,async (req, res) => {
+  const {page} = req.query;
+  const query={isAdmin:false };
+  const users = await getUsers(query,page)
+  const total= await User.find(query);
+    res.json({data:users,total:total.length});
+});
+
+// @route   DELETE api/v1/user/delete
+// @desc    delete a user
+// @access  private
+router.delete("/delete", admin, async (req, res) => {
+  const { id } = req.body;
+  const user = await User.findByIdAndDelete(id);
+
+  if (user === null)
+    return res.status(400).json({ message: "User not exists" });
+  else {
+    res.json({
+      message: "User deleted",
+    });
+  }
 });
 
 // @route   GET api/v1/user/me
@@ -37,7 +55,6 @@ router.get("/me", auth, async (req, res) => {
       "phone",
       "email",
       "address",
-      "picture",
       "savedProperties"
     ])
   );
@@ -59,106 +76,50 @@ router.get("/savedProperties", auth, async (req, res) => {
 // @route   GET api/v1/user/update
 // @desc    update profile
 // @access  private
-router.patch(
-  "/update",
-  auth,
-  async (req, res) => {
-    const { error } = validateUser(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+router.patch("/update",auth, async (req, res) => {
+
+  const { email } = req.body.user;
+
+  // Check if email is used
+  let user = await User.findOne({ email });
+  if (user && ( user._id != req.user._id)) return res.status(409).json({ message: "Email already exist" });
+
     const updated_user = await User.findByIdAndUpdate(
       req.user._id,
-      req.body
-    ).select("-password");
-    debug(updated_user);
+      req.body.user,
+      { new: true }
+    );
     res.json(
       {
-      message: "user updated",
-      success: true,
+      message: "informations updated",
+      user:
+      _.pick(updated_user, [
+        "_id",
+        "firstname",
+        "lastname",
+        "email",
+        "isAdmin"
+      ])
     }
     );
   }
 );
 
-// @route   GET api/v1/user/updatePicture
-// @desc    update profile picture
-// @access  private
-
-router.patch(
-  "/updatePicture",
-  auth,
-  uploadImage.single("picture"),
-  async (req, res) => {
-    
-    if (!req.file)  return res.status(400).json({ message: "No image uploaded" });
-      const user = await User.findById(req.user._id);
-      let image_filename = basename(user.picture);
-      const imageName = req.file.filename;
-      if (imageName !== image_filename && image_filename !== "default.jpg")
-        deleteFile(
-          join(fileUploadPaths.USER_IMAGE_UPLOAD_PATH, image_filename)
-        );
-
-      //set the path of the new image
-      path = `${fileUploadPaths.USER_IMAGE_URL}/${imageName}`;
-      const update_values = { picture: path };
-      moveFile(
-        join(fileUploadPaths.FILE_UPLOAD_PATH, imageName),
-        join(fileUploadPaths.USER_IMAGE_UPLOAD_PATH, imageName)
-      );
-    
-
-    const updated_user = await User.findByIdAndUpdate(
-      req.user._id,
-      update_values
-    ).select("-password");
-    debug(updated_user);
-    res.json({
-      message: "profile picture updated",
-      success: true,
-    });
-  }
-);
-
-// @route   GET api/v1/user/removePicture
-// @desc    remove profile picture
-// @access  private
-
-router.patch(
-  "/removePicture",
-  auth,
-  async (req, res) => {
-    const user = await User.findById(req.user._id);
-    let image_filename = basename(user.picture);
-    deleteFile(
-      join(fileUploadPaths.USER_IMAGE_UPLOAD_PATH, image_filename)
-    );
-    const updated_user = await User.findByIdAndUpdate(
-      req.user._id,
-      {picture:"/static/user_profile/default.jpg"}
-    );
-    debug(updated_user);
-    res.json({
-      message: "profile picture removed",
-      success: true,
-    });
-  }
-);
 
 // @route   GET api/v1/user/password
 // @desc    update user password
 // @access  private
 
 router.patch(
-  "/password",
-  auth,
-  async (req, res) => {
+  "/password",auth, async (req, res) => {
+    console.log(req.body);
     const user = await User.findById(req.user._id);
-    const { password ,new_password} = req.body;
+    const { old_password ,new_password} = req.body;
 
     // Validate password
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    const validPassword = await bcrypt.compare(old_password, user.password);
     if (!validPassword)
-      return res.status(400).json({ message: "Invalid password" });
+      return res.status(400).json({ message: "Incorrect password" });
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(new_password, salt);
     const updated_user = await User.findByIdAndUpdate(
@@ -171,19 +132,30 @@ router.patch(
     });
   }
 );
+// @route   GET api/v1/user
+// @desc    Search for user
+// @access  private
+router.get("/search", admin,async (req, res) => {
+  const { q ,page} = req.query;
+  if (!q) return res.status(400).json({ message: "no query" });
+  const searchParams = [...q.split(" "), q];
+  let reg = "";
+  searchParams.forEach((i, index) => {
+    reg += "\\b" + i + "\\b";
+    reg += index === searchParams.length - 1 ? "" : "|";
+  });
+  console.log(reg, new RegExp(reg));
+  const query={
+     $or: [ { firstname: new RegExp(reg), }, { lastname: new RegExp(reg),} ] ,
+    isAdmin:false };
+  const users = await getUsers(query,page)
+  const total= await User.find(query);
+    res.json({data:users,total:total.length});
+});
 
 
 
-const validateUser = (user) => {
-  const schema = {
-    name: Joi.string().min(5).max(50),
-    bio: Joi.string(),
-    region: Joi.string().min(5).max(50),
-    address: Joi.string().min(5).max(50),
-    email: Joi.string().min(5).max(50).email(),
-    // isAdmin: Joi.boolean(),
-    // isPro: Joi.boolean(),
-  };
-  return Joi.validate(user, schema);
-};
+
+
+
 module.exports = router;

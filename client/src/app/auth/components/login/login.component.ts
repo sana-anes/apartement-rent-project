@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
         this.isAdmin = this.tokenStorage.getUser().isAdmin;
         this.isAdmin?(this.role ='admin'):(this.role ='user');
         if(!this.isAdmin) this.router.navigateByUrl('/member');
+        else this.router.navigateByUrl('/admin');
       },
       err => {
         this.errorMessage = err.error.message;

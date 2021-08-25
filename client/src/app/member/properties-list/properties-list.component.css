@@ -28,11 +28,11 @@
   }
   .options-flters li:hover, .options-flters li.options-active {
     color: #fff;
-    background: rgb(216, 122, 68);
+    background:  #eb7878;
   }
  .active {
     color: #fff;
-    background: rgb(216, 122, 68);
+    background:  #eb7878;
   }
   .options-flters li:last-child {
     margin-right: 0;
@@ -73,3 +73,39 @@
 .status .waiting:after {
   background: #f2be1d; }
 
+  .pagination {
+    float: right;
+    margin: 0 0 10px;
+  }
+  .pagination li a , button a{
+    border: none;
+    font-size: 95%;
+    width: 40px;
+    height: 30px;
+    color: #999;
+    margin: 0 2px;
+    line-height: 30px;
+    border-radius: 30px !important;
+    text-align: center;
+    padding: 0;
+  }
+  .pagination li a:hover {
+    color: #666;
+  }	
+  
+  .pagination li  button {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 0;
+    border: none;
+    background: none;
+  
+  }
+  .pagination button i {
+    color: #999;
+  }
+  .pagination li i {
+    font-size: 16px;
+    padding-top: 6px;
+  
+  }

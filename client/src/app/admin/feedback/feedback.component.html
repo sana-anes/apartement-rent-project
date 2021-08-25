@@ -1,0 +1,31 @@
+    <div class="container home">
+        <h1>FEEDBACK LIST</h1>
+	  <div class="clearfix">
+						<ul class="pagination">
+							<li class="page-item"  (click)="back()"><button disabled="pageN < 1"><i class="fa fa-angle-double-left"></i></button></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN < total">{{pageN*perPage}}/{{total}}</a></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN > total">{{total}}/{{total}}</a></li>
+							<li class="page-item" (click)="forward()" ><button  disabled="(pageN + 1)*perPage > total " ><i class="fa fa-angle-double-right"></i></button></li>
+						</ul>
+					</div>
+        <div class="row">
+
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4" *ngFor="let row of data">
+                <div class="card">
+            
+                    <div class="card-body">
+                        <h2 class="link-title" ><i class="fas fa-user user-icon"></i>{{row.name}}</h2>
+                        <p class=""><small class="text-muted">
+                        {{row.email}}
+                            <i class="far fa-clock"></i>{{row.created_at | date:'MMM d, y' }}
+                        </small></p>
+                        <div >
+                            {{row.message}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+   
+        </div>
+    </div>
+      

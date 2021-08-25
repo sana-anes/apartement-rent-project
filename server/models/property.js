@@ -37,7 +37,7 @@ const propertySchema = new mongoose.Schema({
   },
   rentPer:{
     type: String,
-    required: true,
+    default:"night"
   },
   picture: [{
     type: String

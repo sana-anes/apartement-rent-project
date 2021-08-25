@@ -1,10 +1,11 @@
-import { Property } from './../../shared/models/property';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PropertyService } from 'src/app/shared/services';
+import { ContentService, PropertyService } from 'src/app/shared/services';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BASE_URL } from '../../../environments/environment';
+import { Category ,Country} from 'src/app/shared/models/content';
+
 const API_URL = BASE_URL+'/api/property/';
 const params = new HttpParams();
 const options = {
@@ -21,10 +22,8 @@ export class AddPropertyComponent implements OnInit {
   successMessage:string='';
   typeHasError = true;
   countryHasError = true;
-  rentHasError = true;
-  types=["apartement","house","townhome","condos"]
-  countries=["tunisia","france","canada"]
-  rentPerOptions=["night","week","month"]
+  types:Category[]=[];
+  countries:Country[]=[];
   files:File[]=[];
 
   filesName :string= 'Choose pictures';
@@ -34,7 +33,7 @@ export class AddPropertyComponent implements OnInit {
   step=1;
 
   constructor(
-    private propertyService: PropertyService,
+    private  contentService:  ContentService,
     private router: Router,
     private formBuilder: FormBuilder,
     private http: HttpClient
@@ -42,6 +41,17 @@ export class AddPropertyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+
+    this.contentService.getContent()
+    .subscribe((res: any) => {
+     this.countries = res.country;
+     this.types=res.category;
+      console.log(res);
+ 
+    }, err => {
+      console.log(err);
+    });
   }
   moveTo(step:number){
   this.step=step;
@@ -56,7 +66,6 @@ export class AddPropertyComponent implements OnInit {
     rooms: new FormControl('', [Validators.required]),
     baths: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required]),
-    rentPer: new FormControl('', [Validators.required]),
     activities: new FormArray([]),
   
   });
@@ -87,9 +96,7 @@ export class AddPropertyComponent implements OnInit {
   get price(): AbstractControl {
     return this.propertyForm.get('price')!;
   }
-  get rentPer(): AbstractControl {
-    return this.propertyForm.get('rentPer')!;
-  }
+
 
   get form() { return this.propertyForm.controls; }
   get activities() { return this.form.activities as FormArray; }
@@ -118,14 +125,6 @@ export class AddPropertyComponent implements OnInit {
     if(e.target.value==='default') this.countryHasError=true;
     else this.countryHasError=false;
     this.country.setValue(e.target.value, {
-      onlySelf: true
-    })
-  }
-
-  changeRentPer(e:any) {
-    if(e.target.value==='default') this.rentHasError=true;
-    else this.rentHasError=false;
-    this.rentPer.setValue(e.target.value, {
       onlySelf: true
     })
   }
@@ -174,7 +173,6 @@ submit(){
       formData.append("rooms", this.propertyForm.value.rooms);
       formData.append("baths", this.propertyForm.value.baths);
       formData.append("price", this.propertyForm.value.price);
-      formData.append("rentPer", this.propertyForm.value.rentPer);
       formData.append("activities", JSON.stringify(this.propertyForm.value.activities));
 
       for (let i = 0; i < this.files.length; i++) {

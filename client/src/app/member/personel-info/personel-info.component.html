@@ -1,0 +1,84 @@
+ <div class=" container ">
+  <h1>PERSONEL INFO</h1>
+    <div class="alert alert-danger" 
+    *ngIf="errorMessage">{{errorMessage}}
+    </div>
+    <div class="alert alert-success" 
+    *ngIf="successMessage">{{successMessage}}
+    </div>
+
+    <form 
+      class="register-register-form"
+      novalidate=""
+      [formGroup]="infoForm"
+      >
+        <div class="form-row">
+          <div class="col">
+             <div class="form-group">
+                <label>Firstname</label>
+                <input class="form-control"  
+                      formControlName="firstname"
+                      [class.is-invalid]="firstname.invalid && firstname.touched" 
+                      name="firstname" 
+                      required minlength="3">
+                <small class="text-danger" *ngIf="firstname.errors?.required  && firstname.touched">Firstname is required</small>
+                <small class="text-danger" *ngIf="firstname.errors?.minlength ">Firstname must be at least 3 characters long</small>
+
+            </div>
+          </div>
+           <div class="col">
+            <div class="form-group">
+              <label>Lastname</label>
+              <input  class="form-control"  
+                      formControlName="lastname" 
+                      [class.is-invalid]="lastname.invalid && lastname.touched" 
+                      name="lastname" 
+                      required minlength="3">
+              <small class="text-danger" *ngIf="lastname.errors?.required  && lastname.touched">Lastname is required</small>
+              <small class="text-danger" *ngIf="lastname.errors?.minlength  ">Lastname must be at least 3 characters long</small>
+            </div>
+          </div>
+        </div>
+          
+        <div class="form-group">
+              <label>Email address</label>
+              <input class="form-control" 
+                    formControlName="email" 
+                    [class.is-invalid]="email.invalid && email.touched" 
+                    name="email" required>
+              <small class="text-danger" *ngIf="email.errors?.required && email.touched">Email address is required</small>
+              <small class="text-danger" *ngIf="email.errors?.email">Invalid email address</small>
+
+        </div>
+
+        <div class="form-group">
+              <label>Address</label>
+              <input class="form-control" 
+                    formControlName="address" 
+                    [class.is-invalid]="address.invalid && address.touched" 
+                    name="address" required>
+              <small class="text-danger" *ngIf="address.errors?.required && address.touched">Home Address is required</small>
+
+        </div>
+        <div class="form-group">
+              <label>Phone number</label>
+              <input class="form-control" 
+                    formControlName="phone" 
+                    [class.is-invalid]="phone.invalid && phone.touched" 
+                    name="phone" required>
+              <small class="text-danger" *ngIf="phone.errors?.required && phone.touched">Phone number is required</small>
+             <small class="text-danger" *ngIf="phone.errors?.pattern && phone.touched">Number Only</small>
+              <small class="text-danger" *ngIf="phone.errors?.minlength && phone.touched">Phone must be at least 8 numbers long</small>
+
+        </div>
+
+
+    </form>
+    <button class="btn btn-submit" (click)="save()" [disabled]="infoForm.invalid" color="primary">Save</button>
+
+
+
+
+
+
+    </div>

@@ -1,0 +1,67 @@
+
+	<div class="container">
+			<div class="container-fluid">
+		
+				<div class="card mb-4">
+				  <div class="card-header">
+					<div class="row">
+						<div class="col-lg-9 col-md-9 " >
+							<h1>Reservations List</h1>
+						</div>
+						<div class="col-lg-3 col-md-3">							
+										  
+						</div>
+					</div>
+				  </div>
+				  <div class="card-body">
+					<div class="table-responsive">
+					  <table
+						class="table table-bordered"
+						id="dataTable"
+						width="100%"
+						cellSpacing={0}
+					  >
+						<thead>
+						  <tr>
+							<th>#</th>
+							<th>Renter</th> 
+							<th>Booked at </th>
+							<th>Check-in</th>
+							<th>Check-out </th>
+							<th>Fees</th>
+							<th>Actions</th>
+						  </tr>
+						</thead>
+						<tbody>
+						
+							<tr *ngFor="let row of data ;let i = index ">
+								<td>{{i+1+(pageN-1)*perPage}}</td>
+								 <td>{{row.user.firstname}} {{row.user.lastname}}</td>
+								<td>{{row.created_at | date:'MMM d, y'}}</td>
+								<td>{{row.check_in | date:'MMM d, y'}}</td>
+								<td>{{row.check_out | date:'MMM d, y'}}</td>
+								<td>{{row.total_price}}</td>
+
+								<td>
+									<button  class="delete" title="Cancel Reservation" data-toggle="tooltip"><i class="material-icons" (click)="delete(row._id)">&#xE872;</i></button>
+								</td>
+							</tr>
+						
+						</tbody>
+					  </table>
+					  <div class="clearfix">
+						<ul class="pagination">
+							<li class="page-item"  (click)="back()"><button disabled="pageN < 1"><i class="fa fa-angle-double-left"></i></button></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN < total">{{pageN*perPage}}/{{total}}</a></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN > total">{{total}}/{{total}}</a></li>
+							<li class="page-item" (click)="forward()" ><button  disabled="(pageN + 1)*perPage > total " ><i class="fa fa-angle-double-right"></i></button></li>
+						</ul>
+					</div>
+					</div>
+				  </div>
+
+				</div>
+			  </div>
+		   
+		</div>
+	

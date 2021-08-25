@@ -13,17 +13,22 @@ export class PropertiesListComponent implements OnInit {
   data: Property[] = [];
   base_url:string=BASE_URL;
   optionFilter:string="all";
-  constructor(private propertyService: PropertyService,
+  pageN:number=1;
+  total!:number;
+  perPage:number=10;
+  constructor(
+    private propertyService: PropertyService,
     private router: Router,
-
     ) { }
 
 
   option(e:string){
     this.optionFilter=e;
+    this.pageN=1;
     this.propertyService.getPropertiesByStatus(e)
     .subscribe((res: any) => {
-      this.data = res;
+      this.data = res.data;
+      this.total=res.total;
       console.log(res);
 
     }, err => {
@@ -35,7 +40,8 @@ export class PropertiesListComponent implements OnInit {
 
     this.propertyService.getPropertiesByStatus(this.optionFilter)
     .subscribe((res: any) => {
-      this.data = res;
+      this.data = res.data;
+    this.total=res.total;
       console.log(res);
 
     }, err => {
@@ -56,5 +62,40 @@ export class PropertiesListComponent implements OnInit {
       console.log(err);
     });
   }
+
+  
+  back(){
+    let page=this.pageN-1
+
+    if(page>0){
+      this.pageN=page;
+      this.propertyService.getPropertiesByStatus(this.optionFilter,page-1)
+      .subscribe((res: any) => {
+        this.data = res.data;
+        this.total=res.total;
+   
+      }, err => {
+        console.log(err);
+      });
+    }
+
+    }
+
+    forward(){
+      this.propertyService.getPropertiesByStatus(this.optionFilter,this.pageN)
+        .subscribe((res: any) => {
+          if(res.data.length){
+            this.pageN=this.pageN+1;
+            this.data = res.data;
+            this.total=res.total;
+          }
+          console.log(res);
+     
+        }, err => {
+          console.log(err);
+        });
+      
+  
+      }
 
 }
