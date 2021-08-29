@@ -64,5 +64,7 @@ export class ContentService {
 getContent(): Observable<any> {  
   return this.http.get<any>(`${API_URL}content`)
 }
-
+getCount(): Observable<any> {  
+  return this.http.get<any>(`${API_URL}count`)
+}
 }

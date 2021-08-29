@@ -6,6 +6,8 @@ const auth = require("../../middleware/auth");
 const {Category} = require("../../models/category");
 const { User } = require("../../models/User");
 const { Country,} = require("../../models/country");
+const { Property } = require("../../models/property");
+const { Reservation } = require("../../models/reservation");
 
 // @route   POST api/content/addCategory
 // @desc    create a Category
@@ -95,14 +97,23 @@ router.delete("/deleteCountry",admin, async (req, res) => {
 
 // @route   GET api/content/
 // @desc    Get content
-// @access  admin
+// @access  public
 router.get("/content", async (req, res) => {
   const all_country = await Country.find();
   const all_category = await Category.find();
   res.json({country:all_country,category:all_category});
 });
 
+// @route   GET api/content/
+// @desc    Get content
+// @access  public
+router.get("/count", async (req, res) => {
+  const all_users = await User.find({isAdmin:false});
+  const all_properties = await Property.find({status:'accepted'});
+  const all_reservations = await Reservation.find();
 
+  res.json({users:all_users.length, properties: all_properties.length,reservations:all_reservations.length});
+});
 
 
 module.exports = router;
