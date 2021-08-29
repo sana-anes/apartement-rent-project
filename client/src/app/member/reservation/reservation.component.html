@@ -49,7 +49,13 @@
 		</div> -->
 	<div class="container">
 			<div class="container-fluid">
-		
+		  <div class="alert alert-danger" 
+                *ngIf="errorMessage">{{errorMessage}}
+                </div>
+
+                <div class="alert alert-success" *ngIf="successMessage">
+                    <strong>Success! </strong> {{ successMessage }}.
+                </div>
 				<div class="card mb-4">
 				  <div class="card-header">
 					<div class="row">
@@ -106,11 +112,10 @@
 						  <tr>
 							<th>#</th>
 							<th>Property</th>
-							<!-- <th>Renter</th> -->
 							<th>Booked at </th>
 							<th>Check-in</th>
 							<th>Check-out </th>
-							<th>Fees</th>
+							<th>Cost</th>
 							<th>Status</th>
 							<th>Actions</th>
 						  </tr>
@@ -120,18 +125,19 @@
 							<tr *ngFor="let row of data ;let i = index ">
 								<td>{{i+1+(pageN-1)*perPage}}</td>
 								<td>{{row.property.title}}</td>
-								<!-- <td>{{row.user.firstname}} {{row.user.lastname}}</td> -->
 								<td>{{row.created_at | date:'MMM d, y'}}</td>
 								<td>{{row.check_in | date:'MMM d, y'}}</td>
 								<td>{{row.check_out | date:'MMM d, y'}}</td>
 								<td>{{row.total_price}}</td>
 
-								<td class="status"> <button><span disabled="row.status==='confirmed'" *ngIf="row.status==='confirmed'"  class="active">{{row.status}}</span>
-									<span  *ngIf="row.status==='not confirmed'"  class="waiting" (click)="confirm(row._id)">confirm here</span>
+								<td class="status"> <button>
+									<span disabled="row.status==='confirmed'" *ngIf="row.status==='confirmed'"  class="active">{{row.status}}</span>
+									<span disabled="row.status==='canceled'" *ngIf="row.status==='canceled'"  class="cancel">{{row.status}}</span>
+									<span  *ngIf="row.status==='not confirmed'"  class="waiting" (click)="pay(row._id , row.total_price , row.check_in )">confirm here</span>
 								</button></td>
 								<td>
 									<button  class="view" title="View Property" data-toggle="tooltip"><i class="material-icons" [routerLink]="['/member/propertyDetails', row.property._id]">&#xE417;</i></button>
-									<button  class="delete" title="Cancel Reservation" data-toggle="tooltip"><i class="material-icons" (click)="delete(row._id)">&#xE872;</i></button>
+									<button  class="delete" title="Cancel Reservation" data-toggle="tooltip"><i class="material-icons" (click)="cancel(row._id)">&#xE872;</i></button>
 								</td>
 							</tr>
 						
@@ -141,7 +147,7 @@
 						<ul class="pagination">
 							<li class="page-item"  (click)="back()"><button disabled="pageN < 1"><i class="fa fa-angle-double-left"></i></button></li>
 							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN < total">{{pageN*perPage}}/{{total}}</a></li>
-							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN > total">{{total}}/{{total}}</a></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN >= total">{{total}}/{{total}}</a></li>
 							<li class="page-item" (click)="forward()" ><button  disabled="(pageN + 1)*perPage > total " ><i class="fa fa-angle-double-right"></i></button></li>
 						</ul>
 					</div>

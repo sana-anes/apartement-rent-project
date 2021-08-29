@@ -1,34 +1,27 @@
 <div class="container">
   <section  class="options">
     <div class="container" >
-
       <div class="row gy-4 ">
-
         <div class="col-lg-6 col-md-6" >
             <div class="option-box" (click)="setOption('info')">
                 <i class="far fa-address-card"></i>               
                  <span  >Personal Information</span>
             </div>
         </div>
-
         <div class="col-lg-6 col-md-6">
             <div class="option-box" (click)="setOption('security')">
                 <i class="fas fa-lock"></i>
                  <span  >Security</span>
-
             </div>
         </div>
-      
       </div>
-
     </div>
-
   </section>
   <mat-divider></mat-divider>
   <section class="forms">
       <div class="form-box">
-     <personel-info *ngIf="option==='info'"></personel-info> 
-      <security *ngIf="option==='security'"></security>
+        <personel-info *ngIf="option==='info'"></personel-info> 
+        <security *ngIf="option==='security'"></security>
       </div>
   </section>
 

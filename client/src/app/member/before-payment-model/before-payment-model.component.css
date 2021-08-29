@@ -1,0 +1,37 @@
+h1{
+  text-align: center;
+}
+.content-item {
+    margin-bottom: 30px;
+    text-align: center;
+
+  }
+
+   .conditions ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+ .conditions ul li + li {
+    padding-top: 10px;
+  }
+  
+  .conditions ul i {
+    color: #eb7878;
+    margin-right: 3px;
+    transition: 0.3s;
+  }
+  
+  .conditions ul span {
+    padding-left: 5px;
+    color: #515161;
+    font-size: 14px;
+  }
+  .btn-cancel{
+    margin-right: 5px;
+    background: gray;
+  }
+  .btn-continue{
+    background: #eb7878;
+ 
+  }

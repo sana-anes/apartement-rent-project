@@ -85,6 +85,10 @@ export class PropertyService {
     return this.http.get<Property[]>(`${API_URL}others`,httpOptions)
   }
 
+  getSavedProperties(page:number=0): Observable<any> {
+    return this.http.get(API_URL + `savedProperties/${page}`, { responseType: 'json' });
+  }
+
   saveProperty(id:String): Observable<any> {
 
     return this.http.post(`${API_URL}save`,{id:id},httpOptions);

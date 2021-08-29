@@ -1,64 +1,125 @@
-        <div class="container">
-        
-        <div class="row" data-aos="fade-up" data-aos-delay="100">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul class="options-flters">
-              <li [ngClass]="{active:optionFilter=='all'}" (click)="option('all')">All</li>
-              <li [ngClass]="{active:optionFilter=='pending'}" (click)="option('pending')">Pending</li>
-              <li [ngClass]="{active:optionFilter=='accepted'}" (click)="option('accepted')">Accepted</li>
-            </ul>
+<div class="container home">
+    <div class="container search-box">
+      <h1>SEARCH PROPERTIES</h1>
+      <form 
+      class="register-register-form"
+      [formGroup]="searchForm"
+      >
+        <div class="form-group">
+          <div class="form-row">
+              <div class="col">
+                  <select 
+                      formControlName="type" 
+                      (change)="changeType($event)"
+                      class="custom-select search-item" 
+                      name="type" 
+                  >
+                      <option value="all" >All</option>
+                      <option *ngFor="let type of types" >{{type.label}}</option>
+                  </select>
+              </div>
+              <div class="col">
+                  <select 
+                      formControlName="country" 
+                      (change)="changeCountry($event)"
+                      class="custom-select search-item" 
+                      name="type" 
+                  >
+                    <option value="all" >All Countries</option>
+                    <option *ngFor="let country of countries" >{{country.label}}</option>
+                </select>
+              </div>
+            <div class="col">
+                <select   
+                    formControlName="property" 
+                    (change)="changeProperty($event)"
+                    class="custom-select search-item" 
+                    name="property" 
+                >
+                  <option value="all" >All Properties</option>
+                  <option *ngFor="let item of properties" >{{item}}</option>
+                </select>
+            </div>   
           </div>
         </div>
-          <div class="row">
-          <div class="col-lg-4 col-md-6 mb-4" *ngFor="let row of data">
-          <div class="card">
-            <img src="{{base_url+row.picture[0]}}" alt="" class="card-img-top" width="288" height="180">
-           
-            <div class="card-img-overlay over-image">
-                <a class="mc-btn-action " [matMenuTriggerFor]="menu">
-                    <i class="fas fa-ellipsis-v"></i>
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-3">
+              <select  formControlName="rooms" 
+                      (change)="changeRooms($event)"
+                      class="custom-select search-item" 
+                      name="rooms" 
+              >
+                <option value="all" >Bedrooms</option>
+                <option *ngFor="let room of bedrooms" >{{room}}</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <select    
+                  formControlName="baths" 
+                  (change)="changeBaths($event)"
+                  class="custom-select search-item" 
+                  name="baths" 
+              >
+                  <option value="all" >Bathrooms</option>
+                  <option *ngFor="let bath of bathrooms" >{{bath}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+    </form>
+    <button class="btn btn-submit" (click)="search()" color="primary">SEARCH</button>
+  </div>
+  <div class="clearfix">
+    <ul class="pagination">
+      <li class="page-item"  (click)="back()"><button disabled="pageN < 1"><i class="fa fa-angle-double-left"></i></button></li>
+      <li class="page-item "><a  class="page-link" *ngIf="perPage*pageN < total">{{pageN*perPage}}/{{total}}</a></li>
+      <li class="page-item "><a  class="page-link" *ngIf="perPage*pageN >= total">{{total}}/{{total}}</a></li>
+      <li class="page-item" (click)="forward()" ><button  disabled="(pageN + 1)*perPage > total " ><i class="fa fa-angle-double-right"></i></button></li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-md-6 mb-4" *ngFor="let row of data">
+        <div class="card">
+          <img src="{{base_url+row.picture[0]}}" alt="" class="card-img-top" width="288" height="180">
+          <div class="card-img-overlay over-image">
+              <a class="mc-btn-action " [matMenuTriggerFor]="menu">
+                  <i class="fas fa-ellipsis-v"></i>
+                  </a>
+            
+                  <mat-menu #menu="matMenu">        
+                  
+                    <a mat-menu-item (click)="accepte(row._id)" *ngIf="row.status=='pending'">
+                      <mat-icon>check</mat-icon>
+                      <span>Accepte</span>
                     </a>
-              
-                    <mat-menu #menu="matMenu">        
-                      <a mat-menu-item href="/member/properties/reservations/:id">
-                        <mat-icon>date_range</mat-icon>
-                        <span>Reservations</span>
-                      </a>
-                      <a mat-menu-item [routerLink]="['/member/editProperty', row._id]">
-                        <mat-icon>edit</mat-icon>
-                        <span>Edit</span>
-                      </a>
-                      <a mat-menu-item (click)="delete(row._id)">
-                        <mat-icon>delete</mat-icon>
-                        <span>Delete</span>
-                     </a>
-                  </mat-menu> 
-            </div> 
-            <div class="card-body">
-              <h2 class="card-title" >{{row.title}}</h2>
-              <p class="card-text">Type : {{row.type}} </p>
+                    <a mat-menu-item (click)="delete(row._id)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete</span>
+                  </a>
+                </mat-menu> 
+          </div>
+          <div class="card-body">
+              <a class="card-title link-title" [routerLink]="['/admin/propertyDetails', row._id]">{{row.title}}</a>
+              <p class="card-text text-muted">{{row.type}} </p>
               <p class="card-text status border-bottom-0" *ngIf="row.status==='pending'">Status : <span class="waiting">{{row.status}}</span></p>
               <p class="card-text status border-bottom-0" *ngIf="row.status==='accepted'">Status : <span class="active">{{row.status}}</span></p>
-
               <p class="card-text"><small class="text-muted">
                 <i class="fas fa-map-marker-alt"></i>{{row.country}}, {{row.state}}
                 <i class="far fa-clock"></i>{{row.created_at | date:'MMM d, y' }}
-
-            </small></p>
+              </small></p>
               <p class="card-text">
                   <small class="text-muted">
                     <i class="fas fa-bed"></i>{{row.rooms}}
                     <i class="fas fa-bath"></i>{{row.baths}} 
                     <i class="fas fa-money-bill-wave"></i>{{row.price}} DT/ {{row.rentPer}}
-                </small></p>
-                   
-            </div>
-           </div>
+                </small>
+              </p>
+              <mat-divider></mat-divider>
+              <a  class="user-name" ><i class="fas fa-user user-icon"></i>{{ row.user.firstname}} {{ row.user.lastname}}</a>
           </div>
-   
-
-
-     
         </div>
       </div>
+</div>
+</div>
       

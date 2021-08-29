@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Thanks {{data.name}}</h1>
+<div mat-dialog-content> 
+                 <div class="content-item description">
+                  <ul>
+                    <li> <span>Your booking is confirmed </span> </li>
+                    <li><span>{{data.owner}} is expecting you on <strong>{{data.date  | date:'MMM d'}}</strong> </span> </li>
+                  </ul>
+                </div>
+
+</div>
+<div mat-dialog-actions>
+  <button  class="btn btn-ok"  (click)="onOkClick()" cdkFocusInitial>Ok</button>
+</div>

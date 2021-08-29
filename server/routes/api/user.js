@@ -7,7 +7,7 @@ const admin = require("../../middleware/admin");
 const router = express.Router();
 const debug = require("debug")("app:routes");
 
-const getUsers = async (query, page = 0, perPage = 10) => {
+const getUsers = async (query, page = 0, perPage = parseInt(process.env.PAGNATION_PAGE)) => {
   return await User.find(query)  
     .sort({created_at: -1})
     .limit(perPage)
@@ -72,6 +72,7 @@ router.get("/savedProperties", auth, async (req, res) => {
     ])
   );
 });
+
 
 // @route   GET api/v1/user/update
 // @desc    update profile

@@ -8,11 +8,12 @@
                   <img class="d-block w-100 d-md-block" src="{{base_url+pic}}" height="300">
                 </mdb-carousel-item>
               </mdb-carousel>
-              <div class="row entry-top">
-                <div class="col-9 ">
-                  <h2 class="entry-title">
-                    <a>{{data.title}}</a>
-                  </h2>
+              <div class=" entry-top">
+                <div class="entry-title">
+                    <a class="title">{{data.title}}</a>
+                    <a class=" entry-price">{{data.price}}DT/night</a>
+                </div>
+                 
                   <div class="entry-meta">
                     <ul>
                       <li class="d-flex align-items-center"><i class="fas fa-home"></i> <a >{{ data.type}}</a></li>
@@ -21,10 +22,8 @@
                       <!-- <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a >12 Comments</a></li> -->
                     </ul>
                   </div>
-                </div>
-                <div class="col-3  entry-price d-flex align-items-center">
-                  {{data.price}}DT/night
-                </div>
+                
+
               </div>
               <mat-divider></mat-divider>
               <div class="entry-content">               
@@ -40,146 +39,102 @@
 
                   </ul>
                 </div>
-                <mat-divider></mat-divider>
-                <h3 class="content-title">ACTIVITIES NEARBY</h3>
-                <div class="content-item details">
+                <mat-divider *ngIf="data.activities.length"></mat-divider>
+                <h3 class="content-title" *ngIf="data.activities.length">ACTIVITIES NEARBY</h3>
+                <div class="content-item details" >
                   <ul>
                     <li *ngFor="let act of data.activities"><i class="far fa-check-circle"></i> <span>{{act.name}} ({{act.distance}} meters )</span> </li>
    
                   </ul>
                 </div>
-                
+                <mat-divider></mat-divider>
+                <h3 class="content-title">COMMENTS</h3>
 
-              </div>
+              <div class="comments">
 
-
-
-            </article>
-
-
-             <!-- <div class="blog-comments">
-
-              <h4 class="comments-count">8 Comments</h4>
-
-              <div id="comment-1" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="assets/img/blog/comments-1.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Georgia Reader</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan, 2020</time>
-                    <p>
-                      Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad aut sapiente quis molestiae est qui cum soluta.
-                      Vero aut rerum vel. Rerum quos laboriosam placeat ex qui. Sint qui facilis et.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div id="comment-2" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="assets/img/blog/comments-2.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Aron Alvarado</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan, 2020</time>
-                    <p>
-                      Ipsam tempora sequi voluptatem quis sapiente non. Autem itaque eveniet saepe. Officiis illo ut beatae.
-                    </p>
-                  </div>
-                </div>
-
-                <div id="comment-reply-1" class="comment comment-reply">
-                  <div class="d-flex">
-                    <div class="comment-img"><img src="assets/img/blog/comments-3.jpg" alt=""></div>
-                    <div>
-                      <h5><a href="">Lynda Small</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                      <time datetime="2020-01-01">01 Jan, 2020</time>
-                      <p>
-                        Enim ipsa eum fugiat fuga repellat. Commodi quo quo dicta. Est ullam aspernatur ut vitae quia mollitia id non. Qui ad quas nostrum rerum sed necessitatibus aut est. Eum officiis sed repellat maxime vero nisi natus. Amet nesciunt nesciunt qui illum omnis est et dolor recusandae.
-
-                        Recusandae sit ad aut impedit et. Ipsa labore dolor impedit et natus in porro aut. Magnam qui cum. Illo similique occaecati nihil modi eligendi. Pariatur distinctio labore omnis incidunt et illum. Expedita et dignissimos distinctio laborum minima fugiat.
-
-                        Libero corporis qui. Nam illo odio beatae enim ducimus. Harum reiciendis error dolorum non autem quisquam vero rerum neque.
-                      </p>
+              <!-- <h4 class="comments-count">8 Comments</h4> -->
+              
+                <form 
+                [formGroup]="commentForm">
+                  <div class="row">
+                    <div class="col-8 form-group">
+                      <textarea 
+                      name="comment"
+                      formControlName="comment"
+                      class="form-control"
+                       placeholder="Add Comment" 
+                      ></textarea>
+                      <small class="text-danger" *ngIf="commentHasError ">comment is empty</small>
+                    </div>
+                    <div class="col">
+                      <button  class="btn btn-comment" (click)="addComment()">Comment</button>
                     </div>
                   </div>
-
-                  <div id="comment-reply-2" class="comment comment-reply">
+                </form>
+              
+              <div class="comment" *ngFor="let comment of comments ">
+                  <div class="d-flex">
+                  <div class="comment-img"><img src="assets/img/user.png" alt=""></div>
+                  <div>
+                    <div class="user"><span class="username">{{comment.name}}</span> <span class="time">{{comment.created_at | date:'d MMM, y'}}</span></div>
+                    <p>
+                       {{comment.comment}}
+                    </p>
+                    <ul>
+                      <li class="option" (click)="deleteComment(comment._id)" *ngIf="comment.email==email">Delete</li>
+                    </ul>
+                    <ul class="reply">
+                      <input type="text"
+                      name="reply"
+                      class="form-control"
+                       placeholder="Reply"
+                       (keydown.enter)="addReply($event,comment._id)"
+                      >
+                    </ul>
+                  </div>
+     
+                  </div>
+                  <div class="comment comment-reply" *ngFor="let reply of comment.replies">
                     <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/blog/comments-4.jpg" alt=""></div>
+                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
                       <div>
-                        <h5><a href="">Sianna Ramsay</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                        <time datetime="2020-01-01">01 Jan, 2020</time>
-                        <p>
-                          Et dignissimos impedit nulla et quo distinctio ex nemo. Omnis quia dolores cupiditate et. Ut unde qui eligendi sapiente omnis ullam. Placeat porro est commodi est officiis voluptas repellat quisquam possimus. Perferendis id consectetur necessitatibus.
-                        </p>
+                        <div class="user"><span class="username">{{reply.name}}</span> <span class="time">{{reply.created_at | date:'d MMM, y'}}</span></div>
+                    <p>
+                       {{reply.comment}}
+                    </p>
+                        <ul>
+                          <li class="option" (click)="deleteReply(reply._id , comment._id)" *ngIf="reply.email==email">Delete</li>
+                        </ul>
+                        <ul class="reply">
+                          <input type="text"
+                          name="reply"
+                          class="form-control"
+                           placeholder="Reply"
+                           (keydown.enter)="addReply($event,reply._id)"
+                          >
+                        </ul>
                       </div>
                     </div>
-
-                  </div>
-
-                </div>
-
+                    <div  class="comment comment-reply-reply" *ngFor="let replyLevel2 of reply.replies">
+                    <div class="d-flex">
+                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
+                        <div>
+                          <div class="user"><span class="username">{{replyLevel2.name}}</span> <span class="time">{{replyLevel2.created_at | date:'d MMM, y'}}</span></div>
+                          <p>
+                             {{replyLevel2.comment}}
+                          </p>
+                          <ul>
+                            <li class="option" (click)="deleteReply(replyLevel2._id , reply._id)" *ngIf="replyLevel2.email==email">Delete</li>
+                          </ul>
+                        </div>
+                     </div>
+                    </div>
+                  </div> 
               </div>
 
-              <div id="comment-3" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="assets/img/blog/comments-5.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Nolan Davidson</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan, 2020</time>
-                    <p>
-                      Distinctio nesciunt rerum reprehenderit sed. Iste omnis eius repellendus quia nihil ut accusantium tempore. Nesciunt expedita id dolor exercitationem aspernatur aut quam ut. Voluptatem est accusamus iste at.
-                      Non aut et et esse qui sit modi neque. Exercitationem et eos aspernatur. Ea est consequuntur officia beatae ea aut eos soluta. Non qui dolorum voluptatibus et optio veniam. Quam officia sit nostrum dolorem.
-                    </p>
-                  </div>
-                </div>
-
+            </div>
               </div>
-
-              <div id="comment-4" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="assets/img/blog/comments-6.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Kay Duggan</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan, 2020</time>
-                    <p>
-                      Dolorem atque aut. Omnis doloremque blanditiis quia eum porro quis ut velit tempore. Cumque sed quia ut maxime. Est ad aut cum. Ut exercitationem non in fugiat.
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="reply-form">
-                <h4>Leave a Reply</h4>
-                <p>Your email address will not be published. Required fields are marked * </p>
-                <form action="">
-                  <div class="row">
-                    <div class="col-md-6 form-group">
-                      <input name="name" type="text" class="form-control" placeholder="Your Name*">
-                    </div>
-                    <div class="col-md-6 form-group">
-                      <input name="email" type="text" class="form-control" placeholder="Your Email*">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col form-group">
-                      <input name="website" type="text" class="form-control" placeholder="Your Website">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col form-group">
-                      <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Post Comment</button>
-
-                </form>
-
-              </div>
-
-            </div>  -->
-
+            </article>
           </div>
 
           <div class="col-lg-4">
@@ -187,6 +142,13 @@
             <div class="sidebar">
 
               <h3 class="sidebar-title">Check availability</h3>
+               <div class="alert alert-danger" 
+                *ngIf="errorMessage">{{errorMessage}}
+                </div>
+
+                <div class="alert alert-success" *ngIf="successMessage">
+                    <strong>Success! </strong> {{ successMessage }}.
+                </div>
               <div class="sidebar-item ">
                     <mat-form-field >
                       <mat-label>Enter a date range</mat-label>
@@ -210,7 +172,7 @@
                           <mat-icon >event_busy</mat-icon>
                           <span> Not available</span>
                         </button>
-                        <button mat-button *ngIf="available" class="btn btn-reserve row" (click)="pay()">        
+                        <button mat-button *ngIf="available" class="btn btn-reserve row" (click)="openBeforePaymentModel()">        
                           <mat-icon >event_available</mat-icon>
                           <span> Book it now</span>
                         </button>

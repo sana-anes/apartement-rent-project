@@ -4,7 +4,7 @@ const admin = require("../../middleware/admin");
 
 const router = express.Router();
 
-const getFeedback = async (query, page = 0, perPage = 8) => {
+const getFeedback = async (query, page = 0, perPage = 4) => {
   return await Feedback.find(query)  
     .sort({created_at: -1})
     .limit(perPage)

@@ -16,8 +16,8 @@ const {
   fileUploadPaths,
 } = require("../../middleware/uploadHandler");
 
-
-const getProperties = async (query, page = 0, perPage = 10) => {
+const per_page= parseInt(process.env.PAGNATION_PAGE);
+const getProperties = async (query, page = 0, perPage = per_page) => {
   return await Property.find(query)
   .populate({
     path: "user",
@@ -70,6 +70,26 @@ router.get("/", auth, async (req, res) => {
   res.json(all_property);
 });
 
+// @route   GET api/v1/property
+// @desc    Get user property
+// @access  private
+router.get("/savedProperties/:page", auth, async (req, res) => {
+  const {page}=req.params;
+  const { _id } = req.user;
+  const SKIP_VALUE=per_page * page;
+  const LIMIT_VALUE=per_page;
+  const user = await User.findById(_id, {savedProperties:{$slice:[SKIP_VALUE,LIMIT_VALUE]}})
+  .populate({ 
+    path: 'savedProperties',
+    populate: {
+      path: 'user',
+      select: "firstname lastname",
+    } 
+ })
+const saved_property = user.savedProperties;
+  console.log({data:saved_property,total:saved_property.length});
+    res.json({data:saved_property,total:saved_property.length});
+});
 // @route   GET api/v1/property
 // @desc    Get user property by status
 // @access  private
@@ -238,65 +258,22 @@ router.get("/single/:id", async (req, res) => {
   const property = await Property.findById(id).populate({
     path: "user",
     select: "firstname lastname picture",
-  }); //.populate("user");
+  })
+  .populate({ 
+    path: 'comments',
+    populate: {
+    path: 'replies',
+    populate: {
+        path: 'replies',
+    }
+    } 
+  })
   res.json({ property });
 });
 
-// @route   GET api/property/filter
-// @desc    Filter property
-// @access  public
-router.get("/adminFilter", async (req, res) => {
-  var query=null;
-  var filterResult;
-  const { type,country,property,rooms,baths } = req.query;
-  if(type && type!=="all") query={...query,type:type};
-  if(country && country!=="all") query={...query,country:country};
-  if(rooms && rooms!=="all") query={...query,rooms:rooms};
-  if(baths && baths!=="all") query={...query,baths:baths};
-  if(property && property!=="all") query={...query,status:property};
-
-if(query)
-  filterResult = await Property.find(query).sort({created_at: -1}).populate({
-    path: "user",
-    select: "firstname lastname picture",
-  });
-else
-   filterResult = await Property.find().sort({created_at: -1}).populate({
-    path: "user",
-    select: "firstname lastname picture",
-  });
-
-res.json(filterResult);
-
-});
 
 
-// @route   GET api/property/userFilter
-// @desc    Filter property
-// @access  user
-router.get("/userFilter", async (req, res) => {
-  var query=null;
-  var filterResult;
-  const { type,country,rooms,baths } = req.query;
-  if(type && type!=="all") query={...query,type:type};
-  if(country && country!=="all") query={...query,country:country};
-  if(rooms && rooms!=="all") query={...query,rooms:rooms};
-  if(baths && baths!=="all") query={...query,baths:baths};
 
-if(query)
-  filterResult = await Property.find({...query,user: { $ne: _id },status:'accepted'}).sort({created_at: -1}).populate({
-    path: "user",
-    select: "firstname lastname picture",
-  });
-else
-   filterResult = await Property.find({user: { $ne: _id },status:'accepted'}).sort({created_at: -1}).populate({
-    path: "user",
-    select: "firstname lastname picture",
-  });
-
-res.json(filterResult);
-
-});
 
 
 // @route   GET api/property/userFilter

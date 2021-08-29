@@ -18,6 +18,9 @@ import { AccountComponent } from './account/account.component';
 import { PersonelInfoComponent } from './personel-info/personel-info.component';
 import { SecurityComponent } from './security/security.component';
 import { PropertyReservationsComponent } from './property-reservations/property-reservations.component';
+import { SavedPropertiesComponent } from './saved-properties/saved-properties.component';
+import { AfterPaymentModelComponent } from './after-payment-model/after-payment-model.component';
+import { BeforePaymentModelComponent } from './before-payment-model/before-payment-model.component';
 
 
 @NgModule({
@@ -33,7 +36,10 @@ import { PropertyReservationsComponent } from './property-reservations/property-
     AccountComponent,
     PersonelInfoComponent,
     SecurityComponent,
-    PropertyReservationsComponent
+    PropertyReservationsComponent,
+    SavedPropertiesComponent,
+    AfterPaymentModelComponent,
+    BeforePaymentModelComponent,
   ],
   imports: [
     CommonModule,

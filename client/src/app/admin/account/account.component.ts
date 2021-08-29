@@ -6,12 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
-option:string='info'
+  option:string='info'
   constructor() { }
-setOption(option:string){
-  this.option=option;
-}
   ngOnInit(): void {
+  }
+  setOption(option:string){
+    this.option=option;
   }
 
 }

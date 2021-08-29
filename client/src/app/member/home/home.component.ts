@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Property } from '../../shared/models/property';
 import { ContentService, PropertyService, UserService } from 'src/app/shared/services';
-import { BASE_URL } from '../../../environments/environment';
+import { BASE_URL ,PAGNATION_PAGE} from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
-const API_URL = BASE_URL+'/api/property/';
 import { Category ,Country} from 'src/app/shared/models/content';
 
 @Component({
@@ -23,7 +22,7 @@ export class HomeComponent implements OnInit {
   bathrooms=[1,2,3];
   pageN:number=1;
   total!:number;
-  perPage:number=10;
+  perPage=PAGNATION_PAGE;
 
   searchForm = new FormGroup({
     type: new FormControl('', [Validators.required]),

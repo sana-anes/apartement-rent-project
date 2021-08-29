@@ -8,6 +8,7 @@ import { EditPropertyComponent } from './edit-property/edit-property.component';
 import { PropertyDetailsComponent } from './property-details/property-details.component';
 import { AccountComponent } from './account/account.component';
 import { PropertyReservationsComponent } from './property-reservations/property-reservations.component';
+import { SavedPropertiesComponent } from './saved-properties/saved-properties.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
           {
             path: 'propertyReservations/:id',
             component: PropertyReservationsComponent,
+          },
+          {
+            path: 'savedProperties',
+            component:SavedPropertiesComponent,
           },
      
     ],

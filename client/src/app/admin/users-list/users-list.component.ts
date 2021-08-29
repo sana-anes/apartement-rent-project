@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../shared/models/user';
 import { UserService } from 'src/app/shared/services';
-import { BASE_URL } from '../../../environments/environment';
+import { PAGNATION_PAGE} from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -13,10 +13,9 @@ import { HttpClient } from '@angular/common/http';
 export class UsersListComponent implements OnInit {
 
   data: User[] = [];
-  base_url:string=BASE_URL;
   pageN:number=1;
   total!:number;
-  perPage:number=10;
+  perPage:number=PAGNATION_PAGE;
 filterForm = new FormGroup({
   search: new FormControl('', [Validators.required]),
 });

@@ -1,5 +1,4 @@
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import {PropertiesListComponent } from './properties-list/properties-list.component';
@@ -17,7 +16,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            component: HomeComponent,
+            component: PropertiesListComponent,
           },
           {
             path: 'reservations',
@@ -26,7 +25,7 @@ const routes: Routes = [
 
           {
             path: 'properties',
-            component: HomeComponent,
+            component: PropertiesListComponent,
           },
           {
             path: 'propertyDetails/:id',

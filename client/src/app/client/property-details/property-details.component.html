@@ -1,0 +1,178 @@
+      <div class="container" >
+        <div class="row" >
+          <div class="col-lg-8 entries" >
+            <article class="entry entry-single">
+
+              <mdb-carousel  [animation]="'slide'">
+                <mdb-carousel-item *ngFor="let pic of pictures; let i = index ">
+                  <img class="d-block w-100 d-md-block" src="{{base_url+pic}}" height="300">
+                </mdb-carousel-item>
+              </mdb-carousel>
+              <div class=" entry-top">
+                <div class="entry-title">
+                    <a class="title">{{data.title}}</a>
+                    <a class=" entry-price">{{data.price}}DT/night</a>
+                </div>
+                 
+                  <div class="entry-meta">
+                    <ul>
+                      <li class="d-flex align-items-center"><i class="fas fa-home"></i> <a >{{ data.type}}</a></li>
+                      <li class="d-flex align-items-center"><i class="fas fa-user "></i> <a >{{ data.user.firstname}} {{ data.user.lastname}}</a></li>
+                      <li class="d-flex align-items-center"><i class="fas fa-calendar-alt icon"></i> <a ><time datetime="2020-01-01">{{data.created_at | date:'MMM d, y' }}</time></a></li>
+                      <!-- <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a >12 Comments</a></li> -->
+                    </ul>
+                  </div>
+                
+
+              </div>
+              <mat-divider></mat-divider>
+              <div class="entry-content">               
+                <h3 class="content-title">PROPERTY DETAILS</h3>
+                <div class="content-item details">
+                  <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> <span>Address : {{data.address}}</span></li>
+                    <li><i class="far fa-flag"></i>  <span>Country : {{data.country}}</span></li>
+                    <li><i class="fas fa-map-marker-alt"></i> <span>State : {{data.state}}</span></li>
+                    <li><i class="fas fa-bed"></i>  <span>Bedrooms : {{data.rooms}}</span></li>
+                    <li><i class="fas fa-bath"></i>  <span>Bathrooms : {{data.baths}}</span></li>
+                    <li><i class="fas fa-calendar-alt"></i>  <span>Last updated : {{data.updated_at | date:'MMM d, y' }}</span></li>
+
+                  </ul>
+                </div>
+                <mat-divider *ngIf="data.activities.length"></mat-divider>
+                <h3 class="content-title" *ngIf="data.activities.length">ACTIVITIES NEARBY</h3>
+                <div class="content-item details" >
+                  <ul>
+                    <li *ngFor="let act of data.activities"><i class="far fa-check-circle"></i> <span>{{act.name}} ({{act.distance}} meters )</span> </li>
+   
+                  </ul>
+                </div>
+                <mat-divider></mat-divider>
+                <h3 class="content-title">COMMENTS</h3>
+
+              <div class="comments">
+
+              <!-- <h4 class="comments-count">8 Comments</h4> -->
+              
+                <form 
+                [formGroup]="commentForm">
+                  <div class="row">
+                    <div class="col-8 form-group">
+                      <textarea 
+                      name="comment"
+                      formControlName="comment"
+                      class="form-control"
+                       placeholder="Add Comment" 
+                      ></textarea>
+                      <small class="text-danger" *ngIf="commentHasError ">comment is empty</small>
+                    </div>
+                    <div class="col">
+                      <button  class="btn btn-comment" (click)="addComment()">Comment</button>
+                    </div>
+                  </div>
+                </form>
+              
+              <div class="comment" *ngFor="let comment of comments ">
+                  <div class="d-flex">
+                  <div class="comment-img"><img src="assets/img/user.png" alt=""></div>
+                  <div>
+                    <div class="user"><span class="username">{{comment.name}}</span> <span class="time">{{comment.created_at | date:'d MMM, y'}}</span></div>
+                    <p>
+                       {{comment.comment}}
+                    </p>
+                    <ul>
+                      <li class="option">Reply</li>
+                    </ul>
+                
+                  </div>
+     
+                  </div>
+                  <div class="comment comment-reply" *ngFor="let reply of comment.replies">
+                    <div class="d-flex">
+                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
+                      <div>
+                        <div class="user"><span class="username">{{reply.name}}</span> <span class="time">{{reply.created_at | date:'d MMM, y'}}</span></div>
+                    <p>
+                       {{reply.comment}}
+                    </p>
+                        <ul>
+                          <li class="option" >Reply</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div  class="comment comment-reply-reply" *ngFor="let replyLevel2 of reply.replies">
+                    <div class="d-flex">
+                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
+                        <div>
+                          <div class="user"><span class="username">{{replyLevel2.name}}</span> <span class="time">{{replyLevel2.created_at | date:'d MMM, y'}}</span></div>
+                          <p>
+                             {{replyLevel2.comment}}
+                          </p>
+                        </div>
+                     </div>
+                    </div>
+                  </div> 
+              </div>
+
+            </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="col-lg-4">
+
+            <div class="sidebar">
+
+              <h3 class="sidebar-title">Check availability</h3>
+               <div class="alert alert-danger" 
+                *ngIf="errorMessage">{{errorMessage}}
+                </div>
+
+                <div class="alert alert-success" *ngIf="successMessage">
+                    <strong>Success! </strong> {{ successMessage }}.
+                </div>
+              <div class="sidebar-item ">
+                    <mat-form-field >
+                      <mat-label>Enter a date range</mat-label>
+                      <mat-date-range-input [formGroup]="range"  [min]="minDate" [rangePicker]="picker">
+                        <input matStartDate formControlName="start"  placeholder="Start date">
+                        <input matEndDate formControlName="end"  placeholder="End date">
+                      </mat-date-range-input>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker></mat-date-range-picker>
+                    
+                      <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                      <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                    </mat-form-field>
+                    <br><small class="text-danger" *ngIf="!valid">Date range is required</small>
+                    <button class="btn btn-submit" (click)="check()">Check</button>
+              </div>
+              <div class="sidebar-item ">
+                  <div class="check-result " *ngIf="result">
+                     <div class="result-text">
+                        <button mat-button *ngIf="!available" class="btn btn-reserve row" disabled>        
+                          <mat-icon >event_busy</mat-icon>
+                          <span> Not available</span>
+                        </button>
+                        <button mat-button *ngIf="available" class="btn btn-reserve row" [routerLink]="['/auth/login']">        
+                          <mat-icon >event_available</mat-icon>
+                          <span> Book it now</span>
+                        </button>
+                        
+                    </div>
+
+              </div>
+
+   
+              
+            </div>
+
+       
+
+          </div>
+
+          </div>
+
+        </div>
+
+      </div>

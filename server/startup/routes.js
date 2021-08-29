@@ -12,6 +12,7 @@ const user = require("../routes/api/user");
 const feedback = require("../routes/api/feedback");
 const reservation = require("../routes/api/reservation");
 const content = require("../routes/api/content");
+const comment = require("../routes/api/comment");
 
 
 module.exports = (app) => {
@@ -27,6 +28,7 @@ module.exports = (app) => {
   app.use("/api/feedback", feedback);
   app.use("/api/reservation", reservation);
   app.use("/api/content", content);
+  app.use("/api/comment", comment);
 
 
 

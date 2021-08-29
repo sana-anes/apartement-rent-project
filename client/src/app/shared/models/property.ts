@@ -21,6 +21,7 @@ export class Property {
         public created_at:Date,
         public updated_at:Date,
         public user: User,
+        public comments:Comment[],
      
      ) {}
    }

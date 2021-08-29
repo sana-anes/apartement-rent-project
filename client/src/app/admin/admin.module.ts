@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { MainComponent } from './main/main.component';
-import { HomeComponent } from './home/home.component';
 import {PropertiesListComponent } from './properties-list/properties-list.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { SharedModule } from '../shared/shared.module';
@@ -23,7 +22,6 @@ import { FeedbackComponent } from './feedback/feedback.component';
 @NgModule({
   declarations: [
     MainComponent,
-    HomeComponent,
     PropertiesListComponent,
     ReservationComponent,
     NavbarComponent,

@@ -29,7 +29,8 @@
 							<th>Booked at </th>
 							<th>Check-in</th>
 							<th>Check-out </th>
-							<th>Fees</th>
+							<th>Cost</th>
+							<th>Status</th>
 							<th>Actions</th>
 						  </tr>
 						</thead>
@@ -44,6 +45,11 @@
 								<td>{{row.check_out | date:'MMM d, y'}}</td>
 								<td>{{row.total_price}}</td>
 
+								<td class="status"> <button>
+									<span disabled="row.status==='confirmed'" *ngIf="row.status==='confirmed'"  class="active">{{row.status}}</span>
+									<span disabled="row.status==='canceled'" *ngIf="row.status==='canceled'"  class="cancel">{{row.status}}</span>
+									<span  *ngIf="row.status==='not confirmed'"  class="waiting" >{{row.status}}</span>
+								</button></td>
 							
 								<td>
 									<button  class="view" title="View Property" data-toggle="tooltip"><i class="material-icons" [routerLink]="['/member/propertyDetails', row.property._id]">&#xE417;</i></button>
@@ -57,7 +63,7 @@
 						<ul class="pagination">
 							<li class="page-item"  (click)="back()"><button disabled="pageN < 1"><i class="fa fa-angle-double-left"></i></button></li>
 							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN < total">{{pageN*perPage}}/{{total}}</a></li>
-							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN > total">{{total}}/{{total}}</a></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN >= total">{{total}}/{{total}}</a></li>
 							<li class="page-item" (click)="forward()" ><button  disabled="(pageN + 1)*perPage > total " ><i class="fa fa-angle-double-right"></i></button></li>
 						</ul>
 					</div>

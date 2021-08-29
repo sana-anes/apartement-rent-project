@@ -1,0 +1,51 @@
+        <div class="container home">
+                    <h2>SAVED PROPERTIES</h2>
+
+          	  <div class="clearfix">
+						<ul class="pagination">
+							<li class="page-item"  (click)="back()"><button disabled="pageN < 1"><i class="fa fa-angle-double-left"></i></button></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN < total">{{pageN*perPage}}/{{total}}</a></li>
+							<li class="page-item "><a  class="page-link" *ngIf="perPage*pageN >= total">{{total}}/{{total}}</a></li>
+							<li class="page-item" (click)="forward()" ><button  disabled="(pageN + 1)*perPage > total " ><i class="fa fa-angle-double-right"></i></button></li>
+						</ul>
+					</div>
+          
+          <div class="row">
+
+          <div class="col-lg-4 col-md-6 mb-4" *ngFor="let row of data">
+          <div class="card">
+            <img src="{{base_url+row.picture[0]}}" alt="" class="card-img-top" width="288" height="180">
+
+            <div class="card-body">
+              <a class="card-title link-title" [routerLink]="['/member/propertyDetails', row._id]">{{row.title}}</a>
+
+              <p class="card-text text-muted">{{row.type}} </p>
+              <p class="card-text"><small class="text-muted">
+                <i class="fas fa-map-marker-alt"></i>{{row.country}}, {{row.state}}
+                <i class="far fa-clock"></i>{{row.created_at | date:'MMM d, y' }}
+
+            </small></p>
+              <p class="card-text">
+                  <small class="text-muted">
+                    <i class="fas fa-bed"></i>{{row.rooms}}
+                    <i class="fas fa-bath"></i>{{row.baths}} 
+                    <i class="fas fa-money-bill-wave"></i>{{row.price}} DT/ {{row.rentPer}}
+                </small>
+              </p>
+<mat-divider></mat-divider>
+
+                  <a  class="user-name" ><i class="fas fa-user user-icon"></i>{{ row.user.firstname}} {{ row.user.lastname}}</a>
+                  <a  class="btn  btn-save btn-sm" ><i class="fas fa-heart"  [ngStyle]="{'color':'rgb(130, 41, 41)' }" (click)="unsave(row._id)"></i></a>
+
+            </div>
+
+
+           </div>
+          </div>
+   
+
+
+     
+        </div>
+      </div>
+      

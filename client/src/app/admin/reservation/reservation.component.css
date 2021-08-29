@@ -11,8 +11,11 @@
 
 }
 .status .active {
-  background: #FFC107;
+  background: #189118;
   color: #ffffff; }
+  .status .cancel {
+    background: #FFC107;
+    color: #ffffff; }
 
 .status .waiting {
   background: #E34724;
@@ -27,7 +30,14 @@
     padding: 20px;
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
   }
-
+  table.table th  {
+    text-align: center;
+    
+    }
+  table.table td  {
+  text-align: center;
+  
+  }
 table.table td button {
   display: inline-block;
   margin: 0 5px;

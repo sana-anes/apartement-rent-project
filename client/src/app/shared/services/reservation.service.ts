@@ -33,15 +33,27 @@ export class ReservationService {
       id,
     },httpOptions);
   }
-  confirmReservation(id:string): Observable<any> {
+  confirmReservation(id:string,email:string,token:string): Observable<any> {
 
     return this.http.patch(`${API_URL}confirm`,
     { id,
+      email,
+      token
     },httpOptions);
   }
+
+  cancelReservation(id:string): Observable<any> {
+
+    return this.http.patch(`${API_URL}cancel`,
+    { id
+    },httpOptions);
+  }
+
+
   getReservations(): Observable<Reservation[]> {  
     return this.http.get<Reservation[]>(`${API_URL}`)
   }
+  
   getReservationsByProperty(id:string,page:number=0): Observable<Reservation[]> { 
     const httpOptions = {
       headers: { 'Content-Type': 'application/json' },

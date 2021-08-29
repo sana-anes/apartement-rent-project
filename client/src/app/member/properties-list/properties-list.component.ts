@@ -1,7 +1,7 @@
 import { Property } from '../../shared/models/property';
 import { Component, OnInit } from '@angular/core';
 import { PropertyService } from 'src/app/shared/services';
-import { BASE_URL } from '../../../environments/environment';
+import { BASE_URL ,PAGNATION_PAGE} from '../../../environments/environment';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ export class PropertiesListComponent implements OnInit {
   optionFilter:string="all";
   pageN:number=1;
   total!:number;
-  perPage:number=10;
+  perPage=PAGNATION_PAGE;
   constructor(
     private propertyService: PropertyService,
     private router: Router,

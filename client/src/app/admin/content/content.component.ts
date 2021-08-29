@@ -8,8 +8,8 @@ import { ContentService } from 'src/app/shared/services';
   styleUrls: ['./content.component.css']
 })
 export class ContentComponent implements OnInit {
-categories:Category[]=[];
-countries:Country[]=[];
+  categories:Category[]=[];
+  countries:Country[]=[];
 
   constructor(
     private  contentService:  ContentService,
@@ -17,13 +17,10 @@ countries:Country[]=[];
   ) { }
 
   ngOnInit(): void {
-
     this.contentService.getContent()
     .subscribe((res: any) => {
      this.countries = res.country;
-     this.categories=res.category;
-      console.log(res);
- 
+     this.categories=res.category; 
     }, err => {
       console.log(err);
     });
@@ -32,7 +29,6 @@ countries:Country[]=[];
     const label=event.target.value;
     this.contentService.addCountry(label)
     .subscribe((res: any) => {
-      console.log(res);
      this.refresh();
     }, err => {
       console.log(err);
@@ -42,7 +38,6 @@ countries:Country[]=[];
     const label=event.target.value;
     this.contentService.addCategory(label)
     .subscribe((res: any) => {
-      console.log(res);
      this.refresh();
     }, err => {
       console.log(err);
@@ -52,7 +47,6 @@ countries:Country[]=[];
   deleteCountry(id:string){
     this.contentService.deleteCountry(id)
     .subscribe((res: any) => {
-      console.log(res);
      this.refresh();
     }, err => {
       console.log(err);
@@ -61,7 +55,6 @@ countries:Country[]=[];
   deleteCategory(id:string){
     this.contentService.deleteCategory(id)
     .subscribe((res: any) => {
-      console.log(res);
      this.refresh();
     }, err => {
       console.log(err);

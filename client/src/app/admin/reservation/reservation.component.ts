@@ -1,9 +1,8 @@
 import { Reservation } from '../../shared/models/reservation';
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from 'src/app/shared/services';
-import { BASE_URL } from '../../../environments/environment';
+import { BASE_URL,PAGNATION_PAGE } from '../../../environments/environment';
 import { Router } from '@angular/router';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -16,7 +15,7 @@ export class ReservationComponent implements OnInit  {
   base_url:string=BASE_URL;
   pageN:number=1;
   total!:number;
-  perPage:number=10;
+  perPage:number=PAGNATION_PAGE;
 
 constructor(   
   private  reservationService:  ReservationService,

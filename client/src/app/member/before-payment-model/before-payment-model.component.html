@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Hi {{data.name}}</h1>
+<div mat-dialog-content> 
+                 <div class="content-item conditions">
+                  <ul>
+                    <li><i class="fas fa-check"></i> <span>Your total cost : <strong>{{data.cost}}</strong></span> </li>
+                    <li><i class="fas fa-check"></i> <span>You will be charged of the total price <strong>now</strong></span> </li>
+                    <li><i class="fas fa-check"></i> <span>This booking is non-refondable is you cancel it</span> </li>
+                    <li><i class="fas fa-check"></i> <span>This booking will be canceled if you did not pay before 2 days of your arrival </span> </li>
+                    <li><i class="fas fa-check"></i> <span>Changing the dates is not possible</span> </li>
+                    <li><i class="fas fa-check"></i> <span>Your booking details in the reservations area</span> </li>
+                  </ul>
+                </div>
+
+</div>
+<div mat-dialog-actions>
+  <button  class="btn btn-cancel" (click)="onCancelClick()">Cancel</button>
+  <button  class="btn btn-continue"  (click)="onOkClick()" cdkFocusInitial>Continue</button>
+</div>

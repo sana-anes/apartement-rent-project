@@ -8,11 +8,12 @@
                   <img class="d-block w-100 d-md-block" src="{{base_url+pic}}" height="300">
                 </mdb-carousel-item>
               </mdb-carousel>
-              <div class="row entry-top">
-                <div class="col-9 ">
-                  <h2 class="entry-title">
-                    <a>{{data.title}}</a>
-                  </h2>
+              <div class="entry-top">
+                  <div class="entry-title">
+                      <a class="title">{{data.title}}</a>
+                      <a class=" entry-price">{{data.price}}DT/night</a>
+                  </div>
+                
                   <div class="entry-meta">
                     <ul>
                       <li class="d-flex align-items-center"><i class="fas fa-home"></i> <a >{{ data.type}}</a></li>
@@ -21,10 +22,7 @@
                       <!-- <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a >12 Comments</a></li> -->
                     </ul>
                   </div>
-                </div>
-                <div class="col-3  entry-price d-flex align-items-center">
-                  {{data.price}}DT/night
-                </div>
+                
               </div>
               <mat-divider></mat-divider>
               <div class="entry-content">               
@@ -40,14 +38,65 @@
 
                   </ul>
                 </div>
-                <mat-divider></mat-divider>
-                <h3 class="content-title">ACTIVITIES NEARBY</h3>
-                <div class="content-item details">
+                <mat-divider *ngIf="data.activities.length"></mat-divider>
+                <h3 class="content-title" *ngIf="data.activities.length">ACTIVITIES NEARBY</h3>
+                <div class="content-item details" >
                   <ul>
                     <li *ngFor="let act of data.activities"><i class="far fa-check-circle"></i> <span>{{act.name}} ({{act.distance}} meters )</span> </li>
    
                   </ul>
                 </div>
+                <mat-divider></mat-divider>
+                <h3 class="content-title">COMMENTS</h3>
+
+              <div class="comments">              
+        
+              
+              <div class="comment" *ngFor="let comment of comments ">
+                  <div class="d-flex">
+                  <div class="comment-img"><img src="assets/img/user.png" alt=""></div>
+                  <div>
+                    <div class="user"><span class="username">{{comment.name}}</span> <span class="time">{{comment.created_at | date:'d MMM, y'}}</span></div>
+                    <p>
+                       {{comment.comment}}
+                    </p>
+                    <ul>
+                      <li class="option" (click)="deleteComment(comment._id)" >Delete</li>
+                    </ul>
+                  </div>
+     
+                  </div>
+                  <div class="comment comment-reply" *ngFor="let reply of comment.replies">
+                    <div class="d-flex">
+                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
+                      <div>
+                        <div class="user"><span class="username">{{reply.name}}</span> <span class="time">{{reply.created_at | date:'d MMM, y'}}</span></div>
+                    <p>
+                       {{reply.comment}}
+                    </p>
+                        <ul>
+                          <li class="option" (click)="deleteReply(reply._id , comment._id)" >Delete</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div  class="comment comment-reply-reply" *ngFor="let replyLevel2 of reply.replies">
+                    <div class="d-flex">
+                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
+                        <div>
+                          <div class="user"><span class="username">{{replyLevel2.name}}</span> <span class="time">{{replyLevel2.created_at | date:'d MMM, y'}}</span></div>
+                          <p>
+                             {{replyLevel2.comment}}
+                          </p>
+                          <ul>
+                            <li class="option" (click)="deleteReply(replyLevel2._id , reply._id)" >Delete</li>
+                          </ul>
+                        </div>
+                     </div>
+                    </div>
+                  </div> 
+              </div>
+
+            </div>
                 
 
               </div>
@@ -210,9 +259,9 @@
                           <mat-icon >event_busy</mat-icon>
                           <span> Not available</span>
                         </button>
-                        <button mat-button *ngIf="available" class="btn btn-reserve row" (click)="pay()">        
+                        <button mat-button *ngIf="available" disabled class="btn btn-reserve row">        
                           <mat-icon >event_available</mat-icon>
-                          <span> Book it now</span>
+                          <span> Available</span>
                         </button>
                         
                     </div>

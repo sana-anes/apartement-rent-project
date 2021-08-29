@@ -18,8 +18,6 @@ export class PersonelInfoComponent implements OnInit {
     firstname: new FormControl('', [Validators.required]),
     lastname: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-  
-
   });
 
   get firstname(): AbstractControl {
@@ -32,8 +30,6 @@ export class PersonelInfoComponent implements OnInit {
   get email(): AbstractControl {
     return this.infoForm.get('email')!;
   }
-
-
  
   constructor(
     private userService: UserService,
@@ -43,55 +39,53 @@ export class PersonelInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.userService. getUserInfo()
-    .subscribe((res: any) => {
-      this.data = res;
-      this.infoForm.patchValue(res)
-     
-    }, err => {
-      if (err.error.msg) {
-          this.errorMessage = err.error.msg[0].message;
-      }
-      if (err.error.message) {
-          this.errorMessage = err.error.message;
-      }    
-      setTimeout(() => {
-          this.errorMessage ='';
-              }, 6000);  
-  }  
-);    
-}
-save(){
-  this.errorMessage="";
-  const user:User=this.infoForm.value;
-   console.log(this.infoForm.value)
-   this.userService.updateUser(user)
-    .subscribe((res: any) => {
-      console.log(res);
-      this.errorMessage = '';
-      this.successMessage = res.message;
-      setTimeout(() => {
-          this.refresh();
-      }, 2000);   
+    this.userService. getUserInfo().subscribe(
+      (res: any) => {
+        this.data = res;
+        this.infoForm.patchValue(res);
+      }, err => {
+        if (err.error.msg) {
+            this.errorMessage = err.error.msg[0].message;
+        }
+        if (err.error.message) {
+            this.errorMessage = err.error.message;
+        }    
+        setTimeout(() => {
+            this.errorMessage ='';
+                }, 6000);  
+      }  
+    );    
+  }
+  save(){
+    this.errorMessage="";
+    const user:User=this.infoForm.value;
+    console.log(this.infoForm.value)
+    this.userService.updateUser(user)
+      .subscribe((res: any) => {
+        this.errorMessage = '';
+        this.successMessage = res.message;
+        setTimeout(() => {
+            this.refresh();
+        }, 2000);   
 
-    }, err => {
-      if (err.error.msg) {
-        this.errorMessage = err.error.msg[0].message;
-      }
-      if (err.error.message) {
-        this.errorMessage = err.error.message;
-      }    
-      setTimeout(() => {
-        this.errorMessage ='';
-      }, 6000)    });
-   
-}
-refresh(){
-  let currentUrl = this.router.url;
-  this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-  this.router.onSameUrlNavigation = 'reload';
-  this.router.navigate([currentUrl]);
-}
+      }, err => {
+        if (err.error.msg) {
+          this.errorMessage = err.error.msg[0].message;
+        }
+        if (err.error.message) {
+          this.errorMessage = err.error.message;
+        }    
+        setTimeout(() => {
+          this.errorMessage ='';
+        }, 6000)    });
+    
+  }
+  refresh(){
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
+  }
   
     
     

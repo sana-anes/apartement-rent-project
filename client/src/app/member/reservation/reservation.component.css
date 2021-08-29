@@ -11,8 +11,11 @@
 
 }
 .status .active {
-  background: #FFC107;
+  background: #189118;
   color: #ffffff; }
+  .status .cancel {
+    background: #FFC107;
+    color: #ffffff; }
 
 .status .waiting {
   background: #E34724;

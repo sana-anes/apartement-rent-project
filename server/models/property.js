@@ -54,6 +54,12 @@ const propertySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  comments:{
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    }],
+  }
 },
 {timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );

@@ -5,6 +5,7 @@ const { User } = require("../../models/User");
 const { Reservation } = require("../../models/reservation");
 const _ = require("lodash");
 const auth = require("../../middleware/auth");
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 function date(d){
     return new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes() - d.getTimezoneOffset()).toISOString();
@@ -17,7 +18,7 @@ function getNumberOfDays(start, end) {
     const diffInDays = Math.round(diffInTime / oneDay);
     return diffInDays+1;
 }
-const getReservations = async (query, page = 0, perPage = 10) => {
+const getReservations = async (query, page = 0, perPage = parseInt(process.env.PAGNATION_PAGE)) => {
   return await Reservation.find(query)
   .populate({
     path: "user",
@@ -52,7 +53,10 @@ let reservations =await Reservation.findOne({
 if(reservations){
     res.json({message:"The Property not available",available:false});
 }else{
-    res.json({message:"The Property is available",available:true});
+  const property= await Property.findById(id);
+  const nbr_days=getNumberOfDays(check_in,check_out);
+  const price=nbr_days*property.price;
+    res.json({message:"The Property is available",available:true , cost:price});
 }
 
 });
@@ -90,7 +94,7 @@ router.post("/book",auth, async (req, res) => {
             total_price:price
         }
         const new_reservation= await new Reservation(reservation).save();
-        res.json({message:"property booked successfully", id:new_reservation._id ,fees:new_reservation.total_price})
+        res.json({message:"property booked successfully", new_reservation:new_reservation})
 
     }
     
@@ -103,27 +107,44 @@ router.post("/book",auth, async (req, res) => {
 
 
 router.patch("/confirm",auth, async (req, res) => {
-  const {id}=req.body;
-     let reservations =await Reservation.findByIdAndUpdate(id, {status:"confirmed"})
-    res.json({message:"reservation is confirmed successfully"})
-  // let {id,stripeEmail,stripeToken,amount}=req.body;
-  // stripe.customers.create({
-  //   email: stripeEmail,
-  //   source: stripeToken
-  // })
-  // .then(customer => stripe.charges.create({
-  //   amount,
-  //   description: 'AtypicHouse reservations',
-  //   currency: 'usd',
-  //   customer: customer.id
-  // }))
-  // .then(charge => async{
- 
-  // }
-  //);
+  const {id,email,token}=req.body;
+  const reservation=await Reservation.findById(id);
+  const amount=reservation.total_price*100;
+  stripe.customers.create({
+    email: email,
+    source: token.id
+  })
+  .then(customer => stripe.charges.create({
+    amount,
+    description: 'AtypicHouse',
+    currency: 'usd',
+    customer: customer.id
+  }))
+  .then( async (charge) => 
+    {
+      if(charge.status==='succeeded'){
+        let reservations =await Reservation.findByIdAndUpdate(id, {status:"confirmed"})
+        res.json({message:"payment is succeeded , reservation is confirmed successfully"})
+      }
+      else res.status(406).json({message:"payment is failed , reservation is not confirmed yet"})
+
+    }
+    
+    );
   });
 
+// @route   PATCH api/v1/reservation/cancel
+// @desc    PATCH reservation cancelation
+// @access  private
 
+
+router.patch("/cancel",auth, async (req, res) => {
+  const {id}=req.body;
+  console.log(req.body);
+        let reservations =await Reservation.findByIdAndUpdate(id, {status:"canceled"})
+        res.json({message:"Reservation is canceled successfully"})
+
+  });
 
 
    // @route   GET api/v1/reservation/all
@@ -131,7 +152,7 @@ router.patch("/confirm",auth, async (req, res) => {
 // @access  private
 router.get("/all", async (req, res) => {
   const {page} = req.query;
-  let query={status:'confirmed'};  
+  let query={status: { $ne: 'not confirmed' } };
   const reservations = await getReservations(query,page);
 const total= await Reservation.find(query);
   res.json({data:reservations,total:total.length});

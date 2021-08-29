@@ -22,22 +22,20 @@ export class NavbarComponent {
     private token: TokenStorageService,
   ) { }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
 
-      this.breakpointObserver
-      .observe(['(min-width: 768px)'])
-      .subscribe((state: BreakpointState) => {
-          if (state.matches) {
-            this.isMobile=false;
-          } else {
-            this.isMobile=true;        }
-      })
-   
+    this.breakpointObserver
+    .observe(['(min-width: 768px)'])
+    .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          this.isMobile=false;
+        } else {
+          this.isMobile=true;        }
+    })
 
-      this.currentMember = this.token.getUser();
-  
-    
-    }
+    this.currentMember = this.token.getUser();
+
+  }
 
   logout(){
     this.authService.logout();
