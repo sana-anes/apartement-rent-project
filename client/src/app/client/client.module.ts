@@ -9,7 +9,6 @@ import { HelpComponent } from './help/help.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { RoutingModule } from './routing.module';
 import { SharedModule } from './../shared/shared.module';
-import { SearchComponent } from './search/search.component';
 import { PropertyDetailsComponent } from './property-details/property-details.component';
 import { CarouselModule, WavesModule } from 'angular-bootstrap-md'
 import {MatDatepickerModule} from '@angular/material/datepicker';

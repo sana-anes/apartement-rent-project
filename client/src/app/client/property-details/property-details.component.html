@@ -1,3 +1,5 @@
+<div class="main-container">
+
       <div class="container" >
         <div class="row" >
           <div class="col-lg-8 entries" >
@@ -52,36 +54,45 @@
 
               <div class="comments">
 
-              <!-- <h4 class="comments-count">8 Comments</h4> -->
-              
-                <form 
-                [formGroup]="commentForm">
+                
+              <div class="reply-form" #target>
+                <p *ngIf="replyTo==''">Add your comment</p>
+                <p *ngIf="replyTo!=''"><i class="fas fa-undo" (click)="undo()"></i> Reply to {{replyTo}} </p>
+                <form [formGroup]="commentForm" >
                   <div class="row">
-                    <div class="col-8 form-group">
-                      <textarea 
-                      name="comment"
-                      formControlName="comment"
-                      class="form-control"
-                       placeholder="Add Comment" 
-                      ></textarea>
-                      <small class="text-danger" *ngIf="commentHasError ">comment is empty</small>
+                    <div class="col-md-6 form-group">
+                      <input formControlName="name" name="name" type="text" class="form-control" placeholder="Your Name">
+                      <small class="text-danger" *ngIf="name.errors?.required && name.touched">Name is required</small>
+
                     </div>
-                    <div class="col">
-                      <button  class="btn btn-comment" (click)="addComment()">Comment</button>
+                    <div class="col-md-6 form-group">
+                      <input name="email"  formControlName="email" type="email" class="form-control" placeholder="Your Email">
+                      <small class="text-danger" *ngIf="email.errors?.required && email.touched">Email address is required</small>
+                      <small class="text-danger" *ngIf="email.errors?.email">Invalid email address</small>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col form-group">
+                      <textarea formControlName="comment"  name="comment" class="form-control" placeholder="Your Comment*"></textarea>
+                      <small class="text-danger" *ngIf="comment.errors?.required && comment.touched">Comment is required</small>
+                    </div>
+                  </div>
+                  <button  class="btn btn-comment" (click)="addComment()">Comment</button>
+
                 </form>
+
+              </div>
               
               <div class="comment" *ngFor="let comment of comments ">
                   <div class="d-flex">
-                  <div class="comment-img"><img src="assets/img/user.png" alt=""></div>
+                  <div class="comment-img"><img src="assets/img/user.jpg" alt=""></div>
                   <div>
                     <div class="user"><span class="username">{{comment.name}}</span> <span class="time">{{comment.created_at | date:'d MMM, y'}}</span></div>
                     <p>
                        {{comment.comment}}
                     </p>
                     <ul>
-                      <li class="option">Reply</li>
+                      <li class="option" (click)="addReply(comment._id,comment.name,target)">Reply</li>
                     </ul>
                 
                   </div>
@@ -89,20 +100,20 @@
                   </div>
                   <div class="comment comment-reply" *ngFor="let reply of comment.replies">
                     <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
+                      <div class="comment-img"><img  src="assets/img/user.jpg" alt=""></div>
                       <div>
                         <div class="user"><span class="username">{{reply.name}}</span> <span class="time">{{reply.created_at | date:'d MMM, y'}}</span></div>
                     <p>
                        {{reply.comment}}
                     </p>
                         <ul>
-                          <li class="option" >Reply</li>
+                          <li class="option" (click)="addReply(reply._id,reply.name,target)">Reply</li>
                         </ul>
                       </div>
                     </div>
                     <div  class="comment comment-reply-reply" *ngFor="let replyLevel2 of reply.replies">
                     <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
+                      <div class="comment-img"><img src="assets/img/user.jpg" alt=""></div>
                         <div>
                           <div class="user"><span class="username">{{replyLevel2.name}}</span> <span class="time">{{replyLevel2.created_at | date:'d MMM, y'}}</span></div>
                           <p>
@@ -176,3 +187,4 @@
         </div>
 
       </div>
+</div>

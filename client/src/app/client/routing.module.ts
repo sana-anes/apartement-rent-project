@@ -3,8 +3,9 @@ import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
 import { AboutComponent } from './about/about.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
-import { SearchComponent } from './search/search.component';
 import { HelpComponent } from './help/help.component';
+import { PropertyDetailsComponent } from './property-details/property-details.component';
+import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -29,9 +30,14 @@ const routes: Routes = [
         component: HelpComponent,
       },
       {
+        path: 'propertyDetails/:id',
+        component: PropertyDetailsComponent,
+      },
+      {
         path: 'auth',
         loadChildren: () => import('../auth/auth.module').then(m => m.AuthModule),
       },
+
 
     ],
   },

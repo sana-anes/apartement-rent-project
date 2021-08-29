@@ -27,106 +27,6 @@ const getProperties = async (query, page = 0, perPage = per_page) => {
     .limit(perPage)
     .skip(perPage * page);
 };
-
-// @route   GET api/v1/property/all
-// @desc    Get all property
-// @access  private
-router.get("/all",admin,async (req, res) => {
-  var query=null;
-  const { type,country,property,rooms,baths ,page} = req.query;
-  if(type && type!=="all") query={...query,type:type};
-  if(country && country!=="all") query={...query,country:country};
-  if(property && property!=="all") query={...query,status:property};
-  if(rooms && rooms!=='') query={...query,rooms:rooms};
-  if(baths && baths!=='') query={...query,baths:baths};
-  const all_properties = await getProperties(query,page);
-const total= await Property.find(query);
-  res.json({data:all_properties,total:total.length});
-
-});
-
-// @route   GET api/v1/property/others
-// @desc    Get other users property
-// @access  private
-router.get("/others", auth, async (req, res) => {
-  const { _id } = req.user;
-  var query={user: { $ne: _id },status:'accepted'};
-  const { type,country,rooms,baths ,page} = req.query;
-  if(type && type!=="all") query={...query,type:type};
-  if(country && country!=="all") query={...query,country:country};
-  if(rooms && rooms!=='') query={...query,rooms:rooms};
-  if(baths && baths!=='') query={...query,baths:baths};
-  const other_properties = await getProperties(query,page);
-const total= await Property.find(query);
-  res.json({data:other_properties,total:total.length});
-});
-
-// @route   GET api/v1/property
-// @desc    Get user property
-// @access  private
-router.get("/", auth, async (req, res) => {
-  const { _id } = req.user;
-  const all_property = await Property.find({ user: _id }).sort({created_at: -1});
-  res.json(all_property);
-});
-
-// @route   GET api/v1/property
-// @desc    Get user property
-// @access  private
-router.get("/savedProperties/:page", auth, async (req, res) => {
-  const {page}=req.params;
-  const { _id } = req.user;
-  const SKIP_VALUE=per_page * page;
-  const LIMIT_VALUE=per_page;
-  const user = await User.findById(_id, {savedProperties:{$slice:[SKIP_VALUE,LIMIT_VALUE]}})
-  .populate({ 
-    path: 'savedProperties',
-    populate: {
-      path: 'user',
-      select: "firstname lastname",
-    } 
- })
-const saved_property = user.savedProperties;
-  console.log({data:saved_property,total:saved_property.length});
-    res.json({data:saved_property,total:saved_property.length});
-});
-// @route   GET api/v1/property
-// @desc    Get user property by status
-// @access  private
-router.get("/status", auth, async (req, res) => {
-  const { _id } = req.user;
-  var query={user: _id };
-  const { status,page} = req.query;
-  if(status && status!=="all") query={...query,status:status};
-  const properties = await getProperties(query,page);
-const total= await Property.find(query);
-  res.json({data:properties,total:total.length});  
-
-});
-
-// @route   POST api/v1/property/save
-// @desc    POST save property
-// @access  private
-router.post("/save", auth, async (req, res) => {
-  const { _id } = req.user;
-  const updated_user = await User.findByIdAndUpdate(
-    _id,
-    { $addToSet: { savedProperties: req.body.id }},  
-    )
-  res.json({message:"property saved"});
-});
-// @route   POST api/v1/property/unsave
-// @desc    POST unsave property
-// @access  private
-router.post("/unsave", auth, async (req, res) => {
-  const { _id } = req.user;
-  const updated_user = await User.findByIdAndUpdate(
-    _id,
-    { $pull: { savedProperties: req.body.id }},  
-    )
-  res.json({message:"property unsaved"});
-});
-
 // @route   POST api/v1/property
 // @desc    Add property
 // @access  private
@@ -227,6 +127,121 @@ router.patch(
 
   }
 );
+// @route   GET api/v1/property/public
+// @desc    Get pulic property
+// @access  public
+router.get("/public" ,async (req, res) => {
+  var query={status:'accepted'};
+  const { type,country,rooms,baths ,page} = req.query;
+  if(type && type!=="all") query={...query,type:type};
+  if(country && country!=="all") query={...query,country:country};
+  if(rooms && rooms!=='') query={...query,rooms:rooms};
+  if(baths && baths!=='') query={...query,baths:baths};
+  const public_properties = await getProperties(query,page);
+const total= await Property.find(query);
+  res.json({data:public_properties,total:total.length});
+});
+
+// @route   GET api/v1/property/all
+// @desc    Get all property
+// @access  private
+router.get("/all",admin,async (req, res) => {
+  var query=null;
+  const { type,country,property,rooms,baths ,page} = req.query;
+  if(type && type!=="all") query={...query,type:type};
+  if(country && country!=="all") query={...query,country:country};
+  if(property && property!=="all") query={...query,status:property};
+  if(rooms && rooms!=='') query={...query,rooms:rooms};
+  if(baths && baths!=='') query={...query,baths:baths};
+  const all_properties = await getProperties(query,page);
+const total= await Property.find(query);
+  res.json({data:all_properties,total:total.length});
+
+});
+
+// @route   GET api/v1/property/others
+// @desc    Get other users property
+// @access  private
+router.get("/others", auth, async (req, res) => {
+  const { _id } = req.user;
+  var query={user: { $ne: _id },status:'accepted'};
+  const { type,country,rooms,baths ,page} = req.query;
+  if(type && type!=="all") query={...query,type:type};
+  if(country && country!=="all") query={...query,country:country};
+  if(rooms && rooms!=='') query={...query,rooms:rooms};
+  if(baths && baths!=='') query={...query,baths:baths};
+  const other_properties = await getProperties(query,page);
+const total= await Property.find(query);
+  res.json({data:other_properties,total:total.length});
+});
+
+// @route   GET api/v1/property
+// @desc    Get user property
+// @access  private
+router.get("/", auth, async (req, res) => {
+  const { _id } = req.user;
+  const all_property = await Property.find({ user: _id }).sort({created_at: -1});
+  res.json(all_property);
+});
+
+// @route   GET api/v1/property
+// @desc    Get user property
+// @access  private
+router.get("/savedProperties/:page", auth, async (req, res) => {
+  const {page}=req.params;
+  const { _id } = req.user;
+  const SKIP_VALUE=per_page * page;
+  const LIMIT_VALUE=per_page;
+  const user = await User.findById(_id, {savedProperties:{$slice:[SKIP_VALUE,LIMIT_VALUE]}})
+  .populate({ 
+    path: 'savedProperties',
+    populate: {
+      path: 'user',
+      select: "firstname lastname",
+    } 
+ })
+const saved_property = user.savedProperties;
+  console.log({data:saved_property,total:saved_property.length});
+    res.json({data:saved_property,total:saved_property.length});
+});
+// @route   GET api/v1/property
+// @desc    Get user property by status
+// @access  private
+router.get("/status", auth, async (req, res) => {
+  const { _id } = req.user;
+  var query={user: _id };
+  const { status,page} = req.query;
+  if(status && status!=="all") query={...query,status:status};
+  const properties = await getProperties(query,page);
+const total= await Property.find(query);
+  res.json({data:properties,total:total.length});  
+
+});
+
+// @route   POST api/v1/property/save
+// @desc    POST save property
+// @access  private
+router.post("/save", auth, async (req, res) => {
+  const { _id } = req.user;
+  const updated_user = await User.findByIdAndUpdate(
+    _id,
+    { $addToSet: { savedProperties: req.body.id }},  
+    )
+  res.json({message:"property saved"});
+});
+// @route   POST api/v1/property/unsave
+// @desc    POST unsave property
+// @access  private
+router.post("/unsave", auth, async (req, res) => {
+  const { _id } = req.user;
+  const updated_user = await User.findByIdAndUpdate(
+    _id,
+    { $pull: { savedProperties: req.body.id }},  
+    )
+  res.json({message:"property unsaved"});
+});
+
+
 
 
 
@@ -276,32 +291,7 @@ router.get("/single/:id", async (req, res) => {
 
 
 
-// @route   GET api/property/userFilter
-// @desc    Filter property
-// @access  user
-router.get("/clientFilter", async (req, res) => {
-  var query=null;
-  var filterResult;
-  const { type,country,rooms,baths } = req.query;
-  if(type && type!=="all") query={...query,type:type};
-  if(country && country!=="all") query={...query,country:country};
-  if(rooms && rooms!=="all") query={...query,rooms:rooms};
-  if(baths && baths!=="all") query={...query,baths:baths};
 
-if(query)
-  filterResult = await Property.find({...query,status:'accepted'}).sort({created_at: -1}).populate({
-    path: "user",
-    select: "firstname lastname picture",
-  });
-else
-   filterResult = await Property.find({status:'accepted'}).sort({created_at: -1}).populate({
-    path: "user",
-    select: "firstname lastname picture",
-  });
-
-res.json(filterResult);
-
-});
 // @route   POST api/v1/property/accepte
 // @desc    POST accepte property
 // @access  private

@@ -54,7 +54,7 @@
               
               <div class="comment" *ngFor="let comment of comments ">
                   <div class="d-flex">
-                  <div class="comment-img"><img src="assets/img/user.png" alt=""></div>
+                  <div class="comment-img"><img src="assets/img/user.jpg" alt=""></div>
                   <div>
                     <div class="user"><span class="username">{{comment.name}}</span> <span class="time">{{comment.created_at | date:'d MMM, y'}}</span></div>
                     <p>
@@ -68,7 +68,7 @@
                   </div>
                   <div class="comment comment-reply" *ngFor="let reply of comment.replies">
                     <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
+                      <div class="comment-img"><img src="assets/img/user.jpg" alt=""></div>
                       <div>
                         <div class="user"><span class="username">{{reply.name}}</span> <span class="time">{{reply.created_at | date:'d MMM, y'}}</span></div>
                     <p>
@@ -81,7 +81,7 @@
                     </div>
                     <div  class="comment comment-reply-reply" *ngFor="let replyLevel2 of reply.replies">
                     <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/userFemale.png" alt=""></div>
+                      <div class="comment-img"><img src="assets/img/user.jpg" alt=""></div>
                         <div>
                           <div class="user"><span class="username">{{replyLevel2.name}}</span> <span class="time">{{replyLevel2.created_at | date:'d MMM, y'}}</span></div>
                           <p>

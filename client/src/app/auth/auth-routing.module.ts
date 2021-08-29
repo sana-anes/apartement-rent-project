@@ -6,6 +6,7 @@ import { ForgetPasswordComponent } from './components/forget-password/forget-pas
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -29,13 +30,14 @@ const routes: Routes = [
           path: 'reset-password/:token',
           component: ResetPasswordComponent,
         },
-          // {
-          //   path: '**',
-          //   redirectTo: 'pageNotFound'
-          // }
-    
+
+
     ]
 
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent,
   }
 ];
 

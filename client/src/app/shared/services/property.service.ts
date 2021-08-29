@@ -35,9 +35,6 @@ export class PropertyService {
 
   }
 
-  // getProperties(): Observable<Property[]> {  
-  //   return this.http.get<Property[]>(`${API_URL}`)
-  // }
   getPropertiesById(id:string): Observable<Property[]> {  
     return this.http.get<Property[]>(`${API_URL}single/${id}`)
   }
@@ -83,6 +80,20 @@ export class PropertyService {
       }
     };
     return this.http.get<Property[]>(`${API_URL}others`,httpOptions)
+  }
+
+  getPublicProperties(type:string='all',country:string='all',rooms:string='',baths:string='',page:number=0): Observable<Property[]> { // other users properties user
+    const httpOptions = {
+      headers: { 'Content-Type': 'application/json' },
+      params: { 
+        type:type,
+        country: country,
+        rooms: rooms,
+        baths :baths,
+        page:page
+      }
+    };
+    return this.http.get<Property[]>(`${API_URL}public`,httpOptions)
   }
 
   getSavedProperties(page:number=0): Observable<any> {

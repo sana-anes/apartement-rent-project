@@ -9,6 +9,7 @@ import { PropertyDetailsComponent } from './property-details/property-details.co
 import { AccountComponent } from './account/account.component';
 import { PropertyReservationsComponent } from './property-reservations/property-reservations.component';
 import { SavedPropertiesComponent } from './saved-properties/saved-properties.component';
+import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
             path: 'savedProperties',
             component:SavedPropertiesComponent,
           },
+          {
+            path: '**',
+            component: PageNotFoundComponent,
+          }
      
     ],
   },

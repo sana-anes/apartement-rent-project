@@ -28,7 +28,6 @@ export class PropertyDetailsComponent implements OnInit {
   base_url:String=BASE_URL;
   valid:boolean=true;
   token!:string;
-  email!:string;
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl()
@@ -36,15 +35,24 @@ export class PropertyDetailsComponent implements OnInit {
   minDate: Date;
   new_reservation!:any;
   cost!:number;
-  commentHasError:boolean=false;
+  selectedComment:string='';
+  replyTo:string='';
   commentForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     comment: new FormControl('', [Validators.required]),
   });
 
-  get comment(): AbstractControl {
-    return this.commentForm.get('comment')!;
+  get name(): AbstractControl {
+    return this.commentForm.get('name')!;
   }
 
+  get email(): AbstractControl {
+    return this.commentForm.get('email')!;
+  }
+  get comment(): AbstractControl {
+    return this.commentForm.get('comment')!;
+  } 
 
 
   constructor(
@@ -81,7 +89,6 @@ export class PropertyDetailsComponent implements OnInit {
         this.errorMessage ='';
       }, 6000)
     });
-    this.email = this.tokenStorage.getUser().email;
    
   }
 
@@ -128,33 +135,45 @@ this.available=false;
 
 
   addComment(){  
-    const{comment}=this.commentForm.value;
-    console.log(comment);
+    const { name,email,comment}=this.commentForm.value;
     if(this.commentForm.valid){
-      this.commentHasError=false;
-      const name= this.tokenStorage.getUser().firstname +' '+this.tokenStorage.getUser().lastname;
-      this.commentService.addComment(this.data._id,name,this.email,comment)
-      .subscribe((res: any) => {
-        console.log(res);
-      this.refresh();
 
-      }, err => {
-        console.log(err);
-      });
-    }else this.commentHasError=true;
+        if(this.selectedComment!==''){
+
+          this.commentService.addReply(name,email,comment,this.selectedComment)
+          .subscribe((res: any) => {
+              this.refresh();
+          }, err => {
+              console.log(err);
+          });
+
+        }else{
+
+            this.commentService.addComment(this.data._id,name,email,comment)
+            .subscribe((res: any) => {
+              console.log(res);
+            this.refresh();
+
+            }, err => {
+              console.log(err);
+            });
+
+}
+
+    }
 
 
   }
-  addReply(event:any,comment:string){
-    const reply=event.target.value;
-    const name= this.tokenStorage.getUser().firstname +' '+this.tokenStorage.getUser().lastname;
-    this.commentService.addReply(name,this.email,reply,comment)
-    .subscribe((res: any) => {
-        this.refresh();
-     }, err => {
-        console.log(err);
-    });
-  }
+  addReply(parent_comment:string,name:string,element:any){
+this.selectedComment=parent_comment;
+this.replyTo=name;
+element.scrollIntoView({ behavior: 'smooth', block: 'center' })  
+}
+undo(){
+  console.log("undo");
+  this.selectedComment='';
+  this.replyTo=''; 
+}
 
   refresh(){
     let currentUrl = this.router.url;
