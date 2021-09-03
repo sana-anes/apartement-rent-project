@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
       onlySelf: true
     })
   }
-  changeBaths(e:any) {
+  changeBaths(e:any){
     this.baths.setValue(e.target.value, {
       onlySelf: true
     })

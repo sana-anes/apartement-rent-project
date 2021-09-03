@@ -1,5 +1,8 @@
 const express = require("express");
 const { User } = require("../../models/User");
+const { Property } = require("../../models/property");
+const { Reservation } = require("../../models/reservation");
+
 const bcrypt = require("bcryptjs");
 const _ = require("lodash");
 const auth = require("../../middleware/auth");
@@ -32,9 +35,12 @@ router.delete("/delete", admin, async (req, res) => {
   const { id } = req.body;
   const user = await User.findByIdAndDelete(id);
 
+
   if (user === null)
     return res.status(400).json({ message: "User not exists" });
   else {
+    await Property.deleteMany({ user : id })
+    await Reservation.deleteMany({ user : id })
     res.json({
       message: "User deleted",
     });
