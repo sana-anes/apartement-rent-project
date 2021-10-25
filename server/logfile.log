@@ -1174,3 +1174,6 @@
 {"message":"mongoose is connected to mongodb+srv://sana:sana1828@cluster0.trrob.mongodb.net/apartement_rent?retryWrites=true&w=majority","level":"info"}
 {"message":"mongoose is connected to mongodb://localhost/apartement_rent","level":"info"}
 {"code":"ECONNREFUSED","syscall":"querySrv","hostname":"_mongodb._tcp.cluster0.trrob.mongodb.net","level":"error","message":"querySrv ECONNREFUSED _mongodb._tcp.cluster0.trrob.mongodb.net querySrv ECONNREFUSED _mongodb._tcp.cluster0.trrob.mongodb.net","stack":"Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.trrob.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (dns.js:203:19)"}
+{"message":"mongoose is connected to mongodb+srv://sana:sana1828@cluster0.trrob.mongodb.net/apartement_rent?retryWrites=true&w=majority","level":"info"}
+{"message":"mongoose is connected to mongodb+srv://sana:sana1828@cluster0.trrob.mongodb.net/apartement_rent?retryWrites=true&w=majority","level":"info"}
+{"message":"mongoose is connected to mongodb+srv://sana:sana1828@cluster0.trrob.mongodb.net/apartement_rent?retryWrites=true&w=majority","level":"info"}
